@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AUSTRO · Theory Release Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#101317;
+  --bg-panel:#171b20;
+  --bg-panel-raised:#1d2228;
+  --bg-inset:#0b0d10;
+  --line:#2a3038;
+  --line-soft:#22262c;
+  --text:#e7ebee;
+  --text-dim:#8b939c;
+  --text-faint:#5b636c;
+  --amber:#ffb400;
+  --amber-dim:#8a6415;
+  --green:#3fce74;
+  --green-dim:#1c4d2e;
+  --yellow:#ffd23f;
+  --yellow-dim:#5a4a12;
+  --blue:#2fb8e6;
+  --blue-dim:#164a5c;
+  --red:#ff5a5a;
+  --red-dim:#5a1f1f;
+  --radius:6px;
+  --font-display:'Chakra Petch',sans-serif;
+  --font-mono:'IBM Plex Mono',monospace;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:
+    radial-gradient(ellipse 1200px 600px at 50% -10%, rgba(255,180,0,0.06), transparent 60%),
+    var(--bg);
+  color:var(--text);
+  font-family:var(--font-mono);
+  min-height:100vh;
+  padding:20px 20px 60px;
+}
+::selection{background:var(--amber-dim);color:#fff;}
+::-webkit-scrollbar{height:10px;width:10px;}
+::-webkit-scrollbar-track{background:var(--bg-inset);}
+::-webkit-scrollbar-thumb{background:#333a42;border-radius:5px;}
+::-webkit-scrollbar-thumb:hover{background:#454e58;}
+
+/* ---------- top bar ---------- */
+.rivets{
+  height:3px;
+  background:repeating-linear-gradient(90deg, var(--amber-dim) 0 6px, transparent 6px 14px);
+  opacity:.5;
+  border-radius:2px;
+  margin-bottom:14px;
+}
+header{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:16px;
+  margin-bottom:18px;
+}
+.title-block .eyebrow{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.25em;
+  color:var(--amber);
+  text-transform:uppercase;
+  margin-bottom:6px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.title-block .eyebrow .dot{
+  width:6px;height:6px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 8px var(--green);
+  animation:pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+h1{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(24px,3.4vw,34px);
+  margin:0;
+  letter-spacing:.01em;
+  color:#fff;
+}
+h1 span{color:var(--amber);}
+.subtitle{
+  color:var(--text-dim);
+  font-size:12.5px;
+  margin-top:6px;
+  max-width:56ch;
+}
+.panel-id{
+  text-align:right;
+  font-size:11px;
+  color:var(--text-faint);
+  line-height:1.7;
+}
+.panel-id b{color:var(--text-dim);font-weight:600;}
+
+/* ---------- gauges ---------- */
+.gauges{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(128px,1fr));
+  gap:10px;
+  margin-bottom:16px;
+}
+.gauge{
+  background:var(--bg-panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:12px 14px;
+  position:relative;
+  overflow:hidden;
+}
+.gauge::before{
+  content:"";
+  position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--g-color,var(--amber));
+  opacity:.8;
+}
+.gauge .num{
+  font-family:var(--font-display);
+  font-size:26px;
+  font-weight:700;
+  color:var(--g-color,#fff);
+  line-height:1;
+}
+.gauge .lbl{
+  font-size:10px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--text-dim);
+  margin-top:6px;
+}
+
+/* ---------- toolbar ---------- */
+.toolbar{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  background:var(--bg-panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:12px 14px;
+  margin-bottom:14px;
+}
+.search-wrap{
+  position:relative;
+  flex:1 1 220px;
+  min-width:180px;
+}
+.search-wrap input{
+  width:100%;
+  background:var(--bg-inset);
+  border:1px solid var(--line);
+  color:var(--text);
+  font-family:var(--font-mono);
+  font-size:13px;
+  padding:9px 12px 9px 30px;
+  border-radius:4px;
+  outline:none;
+  transition:border-color .15s;
+}
+.search-wrap input:focus{border-color:var(--amber-dim);}
+.search-wrap svg{
+  position:absolute;left:9px;top:50%;transform:translateY(-50%);
+  width:14px;height:14px;color:var(--text-faint);
+}
+.seg{
+  display:flex;
+  background:var(--bg-inset);
+  border:1px solid var(--line);
+  border-radius:4px;
+  overflow:hidden;
+}
+.seg button{
+  background:transparent;
+  border:none;
+  color:var(--text-dim);
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  letter-spacing:.04em;
+  padding:8px 12px;
+  cursor:pointer;
+  transition:.15s;
+  border-right:1px solid var(--line);
+  white-space:nowrap;
+}
+.seg button:last-child{border-right:none;}
+.seg button:hover{color:var(--text);background:var(--bg-panel-raised);}
+.seg button.active{color:#111;background:var(--amber);font-weight:600;}
+.btn{
+  background:var(--bg-inset);
+  border:1px solid var(--line);
+  color:var(--text-dim);
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  padding:8px 13px;
+  border-radius:4px;
+  cursor:pointer;
+  letter-spacing:.03em;
+  transition:.15s;
+  display:flex;align-items:center;gap:6px;
+}
+.btn:hover{color:#fff;border-color:#454e58;}
+.btn.primary{
+  background:var(--amber);
+  color:#161300;
+  border-color:var(--amber);
+  font-weight:600;
+}
+.btn.primary:hover{background:#ffc233;}
+.toolbar .spacer{flex:1 1 0;min-width:0;}
+.savebadge{
+  font-size:10.5px;
+  color:var(--text-faint);
+  display:flex;
+  align-items:center;
+  gap:6px;
+  white-space:nowrap;
+}
+.savebadge .sdot{width:6px;height:6px;border-radius:50%;background:var(--green);}
+.savebadge.saving .sdot{background:var(--amber);animation:pulse 1s infinite;}
+
+/* ---------- legend ---------- */
+.legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+  padding:10px 14px;
+  background:var(--bg-panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  margin-bottom:16px;
+  font-size:11.5px;
+  color:var(--text-dim);
+  align-items:center;
+}
+.legend .lg-title{
+  font-family:var(--font-display);
+  font-size:10.5px;
+  letter-spacing:.18em;
+  color:var(--text-faint);
+  text-transform:uppercase;
+  margin-right:4px;
+}
+.legend .item{display:flex;align-items:center;gap:6px;}
+.swatch{
+  width:12px;height:12px;border-radius:3px;
+  border:1px solid rgba(255,255,255,.12);
+  flex:none;
+}
+.swatch.green{background:var(--green);box-shadow:0 0 6px rgba(63,206,116,.5);}
+.swatch.yellow{background:var(--yellow);box-shadow:0 0 6px rgba(255,210,63,.5);}
+.swatch.blue{background:var(--blue);box-shadow:0 0 6px rgba(47,184,230,.5);}
+.swatch.red{background:var(--red);box-shadow:0 0 6px rgba(255,90,90,.5);}
+.swatch.off{background:#20242a;border:1px solid var(--line);}
+.legend .hint{margin-left:auto;color:var(--text-faint);font-size:10.5px;}
+
+/* ---------- table ---------- */
+.table-shell{
+  background:var(--bg-panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  overflow:auto;
+  max-height:72vh;
+  position:relative;
+}
+table{
+  border-collapse:separate;
+  border-spacing:0;
+  table-layout:fixed;
+  font-size:12px;
+  min-width:1040px;
+}
+thead th{
+  position:sticky;
+  top:0;
+  background:#1a1e24;
+  color:var(--text-dim);
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:12px;
+  letter-spacing:.05em;
+  padding:11px 3px;
+  border-bottom:1px solid var(--line);
+  text-align:center;
+  z-index:3;
+  white-space:nowrap;
+}
+thead th.th-name{
+  text-align:left;
+  position:sticky;
+  left:0;
+  z-index:5;
+  background:#1a1e24;
+  padding-left:12px;
+  min-width:100px;
+}
+tbody td{
+  padding:0;
+  border-bottom:1px solid var(--line-soft);
+  text-align:center;
+  vertical-align:middle;
+}
+tbody tr:hover td{background:rgba(255,255,255,.02);}
+tbody tr.row-complete td{background:rgba(63,206,116,.05);}
+td.name-cell{
+  position:sticky;
+  left:0;
+  background:#14171c;
+  z-index:2;
+  text-align:left;
+  padding:11px 6px 11px 12px !important;
+  font-family:var(--font-mono);
+  font-weight:600;
+  color:var(--text);
+  font-size:13px;
+  border-right:1px solid var(--line);
+  white-space:nowrap;
+}
+tr:hover td.name-cell{background:#181c22;}
+td.name-cell .idx{color:var(--text-faint);font-weight:400;margin-right:6px;font-size:10px;}
+
+.light-cell{width:44px;height:44px;cursor:pointer;position:relative;}
+.light{
+  width:24px;height:24px;
+  margin:0 auto;
+  border-radius:5px;
+  background:var(--bg-inset);
+  border:1px solid var(--line);
+  transition:all .12s;
+  position:relative;
+}
+.light.green{background:var(--green);border-color:var(--green);box-shadow:0 0 10px rgba(63,206,116,.55), inset 0 0 4px rgba(255,255,255,.3);}
+.light.yellow{background:var(--yellow);border-color:var(--yellow);box-shadow:0 0 10px rgba(255,210,63,.55), inset 0 0 4px rgba(255,255,255,.3);}
+.light.blue{background:var(--blue);border-color:var(--blue);box-shadow:0 0 10px rgba(47,184,230,.55), inset 0 0 4px rgba(255,255,255,.3);}
+.light.red{background:var(--red);border-color:var(--red);box-shadow:0 0 10px rgba(255,90,90,.55), inset 0 0 4px rgba(255,255,255,.3);}
+.light.blue::after{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius:inherit;
+  background:linear-gradient(
+    to top right,
+    transparent calc(50% - 2.2px),
+    #b30000 calc(50% - 2.2px),
+    #b30000 calc(50% + 2.2px),
+    transparent calc(50% + 2.2px)
+  );
+  pointer-events:none;
+}
+.light-cell.locked{cursor:not-allowed;}
+.light-cell:hover .light{transform:scale(1.15);border-color:#666;}
+.light-cell.locked:hover .light{transform:none;border-color:var(--blue);}
+
+.ksa-cell{width:42px;cursor:pointer;}
+.ksa-check{
+  display:inline-block;
+  width:20px;height:20px;
+  border-radius:5px;
+  border:1px solid var(--line);
+  background:var(--bg-inset);
+  position:relative;
+  transition:all .12s;
+  vertical-align:middle;
+}
+.ksa-check.checked{
+  background:var(--green);
+  border-color:var(--green);
+  box-shadow:0 0 8px rgba(63,206,116,.5);
+}
+.ksa-check.checked::after{
+  content:"";
+  position:absolute;
+  left:6px; top:2px;
+  width:5px; height:10px;
+  border:solid #0b1a10;
+  border-width:0 2px 2px 0;
+  transform:rotate(45deg);
+}
+.ksa-cell:hover .ksa-check{transform:scale(1.12);border-color:#666;}
+
+td.total-cell{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:14px;
+  color:var(--amber);
+  width:46px;
+}
+td.total-cell small{display:block;font-family:var(--font-mono);font-weight:400;font-size:9px;color:var(--text-faint);}
+
+td.status-cell{
+  text-align:left;
+  padding:9px 10px !important;
+  width:120px;
+}
+.status-pill{
+  display:inline-block;
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:.04em;
+  padding:4px 9px;
+  border-radius:3px;
+  font-family:var(--font-display);
+  white-space:nowrap;
+}
+.status-pill.complete{background:var(--green-dim);color:var(--green);}
+.status-pill.progress{background:var(--yellow-dim);color:var(--yellow);}
+.status-pill.notstarted{background:#22262c;color:var(--text-faint);}
+.status-pill.flag{background:var(--red-dim);color:var(--red);}
+
+td.notes-cell{
+  text-align:left;
+  padding:9px 8px 9px 10px !important;
+  color:var(--text-dim);
+  font-size:11.5px;
+  width:160px;
+  max-width:160px;
+  cursor:text;
+  display:flex;
+  align-items:center;
+  gap:4px;
+  transition:background .15s;
+}
+td.notes-cell .notes-text{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  flex:1 1 auto;
+  min-width:0;
+  outline:none;
+}
+td.notes-cell:hover{color:var(--text);}
+td.notes-cell.empty .notes-text:empty::before{content:"+ add note";color:var(--text-faint);font-style:italic;}
+td.notes-cell .notes-text:focus{
+  outline:1px solid var(--amber-dim);
+  background:var(--bg-inset);
+  border-radius:3px;
+  white-space:normal;
+  overflow:visible;
+}
+td.notes-cell .notes-preset{
+  flex:none;
+  width:14px;
+  height:18px;
+  padding:0;
+  border:none;
+  background:transparent;
+  color:var(--text-faint);
+  font-size:9px;
+  cursor:pointer;
+  opacity:0;
+  transition:opacity .15s;
+}
+td.notes-cell:hover .notes-preset{opacity:.7;}
+td.notes-cell .notes-preset:hover{opacity:1;}
+td.notes-cell .notes-preset option{background:var(--bg-panel-raised);color:var(--text);}
+
+tfoot td{
+  padding:10px 6px;
+  border-top:1px solid var(--line);
+  background:#14171c;
+  font-family:var(--font-display);
+  font-weight:600;
+  color:var(--text-dim);
+  font-size:11px;
+  position:sticky;
+  bottom:0;
+}
+tfoot td.name-cell{position:sticky;left:0;bottom:0;z-index:4;background:#14171c;}
+
+.empty-state{
+  padding:40px;
+  text-align:center;
+  color:var(--text-faint);
+  font-size:13px;
+}
+
+footer.page-footer{
+  margin-top:16px;
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px;
+  color:var(--text-faint);
+  font-size:10.5px;
+}
+footer.page-footer a{color:var(--text-dim);}
+
+/* ---------------- left-side drawer (vertical rail) ---------------- */
+.drawer-overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.5);
+  opacity:0;pointer-events:none;
+  transition:opacity .2s ease;
+  z-index:39;
+}
+.drawer-overlay.open{opacity:1;pointer-events:auto;}
+.drawer{
+  position:fixed;
+  top:0;left:0;
+  height:100vh;
+  width:min(1500px, 97vw);
+  background:var(--bg-panel);
+  border-right:1px solid var(--line);
+  box-shadow:8px 0 28px rgba(0,0,0,.4);
+  transform:translateX(-100%);
+  transition:transform .25s ease;
+  z-index:40;
+  display:flex;
+  flex-direction:row;
+}
+.drawer.open{transform:translateX(0);}
+.drawer-rail{
+  width:128px;
+  flex:none;
+  background:var(--bg-inset);
+  border-right:1px solid var(--line);
+  display:flex;
+  flex-direction:column;
+  padding:16px 10px;
+  gap:8px;
+}
+.drawer-rail .rail-eyebrow{
+  font-family:var(--font-mono);
+  font-size:9px;
+  letter-spacing:.14em;
+  color:var(--text-faint);
+  text-transform:uppercase;
+  padding:0 4px 6px;
+}
+.drawer-tab{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  background:transparent;
+  border:1px solid var(--line);
+  color:var(--text-dim);
+  font-family:var(--font-display);
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:.02em;
+  padding:14px 6px;
+  border-radius:6px;
+  cursor:pointer;
+  transition:.15s;
+  text-align:center;
+  line-height:1.35;
+}
+.drawer-tab .dt-icon{font-size:18px;line-height:1;}
+.drawer-tab:hover{color:#fff;border-color:#454e58;}
+.drawer-tab.active{background:var(--amber);color:#161300;border-color:var(--amber);}
+.drawer-close{
+  margin-top:auto;
+  background:transparent;
+  border:1px solid var(--line);
+  color:var(--text-faint);
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  padding:9px 6px;
+  border-radius:4px;
+  cursor:pointer;
+}
+.drawer-close:hover{color:#fff;border-color:#454e58;}
+.drawer-content{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  overflow:hidden;
+}
+.drawer-head{
+  padding:16px 22px 0;
+  flex:none;
+}
+.drawer-head h2{
+  font-family:var(--font-display);
+  font-size:16px;
+  color:#fff;
+  margin:0 0 3px;
+}
+.drawer-head p{
+  font-size:11px;
+  color:var(--text-faint);
+  margin:0 0 12px;
+  max-width:56ch;
+}
+.drawer-body{
+  flex:1;
+  overflow-y:auto;
+  padding:6px 22px 24px;
+}
+
+/* KSA mission grid */
+.ksa-table{width:100%;border-collapse:separate;border-spacing:0;font-size:11px;}
+.ksa-table thead th{
+  position:sticky;top:0;background:#1a1e24;color:var(--text-dim);
+  font-family:var(--font-display);font-size:9.5px;font-weight:600;
+  padding:7px 3px;text-align:center;z-index:2;border-bottom:1px solid var(--line);
+}
+.ksa-table thead th.kt-name{text-align:left;position:sticky;left:0;background:#1a1e24;z-index:3;padding-left:8px;min-width:76px;}
+.ksa-table tbody td{padding:0;text-align:center;border-bottom:1px solid var(--line-soft);}
+.ksa-table tbody tr:hover td{background:rgba(255,255,255,.02);}
+.ksa-table td.kt-name{
+  position:sticky;left:0;background:var(--bg-panel);text-align:left;
+  padding:6px 8px;font-family:var(--font-mono);font-weight:600;font-size:11px;
+  color:var(--text);border-right:1px solid var(--line);white-space:nowrap;
+}
+.ksa-table tr:hover td.kt-name{background:#181c22;}
+.km-cell{width:30px;height:30px;cursor:pointer;}
+.km-light{width:16px;height:16px;margin:0 auto;border-radius:3px;background:var(--bg-inset);border:1px solid var(--line);transition:.12s;}
+.km-light.green{background:var(--green);border-color:var(--green);box-shadow:0 0 6px rgba(63,206,116,.5);}
+.km-light.yellow{background:var(--yellow);border-color:var(--yellow);box-shadow:0 0 6px rgba(255,210,63,.5);}
+.km-light.red{background:var(--red);border-color:var(--red);box-shadow:0 0 6px rgba(255,90,90,.5);}
+.km-cell:hover .km-light{transform:scale(1.18);border-color:#666;}
+
+/* Calendar — horizontal timeline (days as columns, one row per PROM group) */
+.cal-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:10px;flex-wrap:wrap;}
+.cal-nav{display:flex;align-items:center;gap:8px;}
+.cal-nav button{background:var(--bg-inset);border:1px solid var(--line);color:var(--text-dim);width:28px;height:28px;border-radius:4px;cursor:pointer;font-size:13px;}
+.cal-nav button:hover{color:#fff;border-color:#454e58;}
+.cal-month-label{font-family:var(--font-display);font-weight:700;font-size:14px;color:#fff;min-width:150px;text-align:center;}
+.cal-legend{display:flex;flex-wrap:wrap;gap:10px;font-size:10px;color:var(--text-faint);margin-bottom:10px;align-items:center;}
+.cal-legend .item{display:flex;align-items:center;gap:5px;}
+.cal-legend .sw{width:10px;height:10px;border-radius:2px;flex:none;}
+
+.tl-shell{overflow-x:auto;border:1px solid var(--line);border-radius:6px;margin-bottom:14px;}
+.tl-table{border-collapse:separate;border-spacing:0;font-size:10px;}
+.tl-table th, .tl-table td{border-right:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);}
+.tl-week-row th{
+  position:sticky;top:0;
+  background:#1a1e24;
+  color:var(--blue);
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:10px;
+  padding:5px 2px;
+  text-align:center;
+  z-index:3;
+  border-bottom:1px solid var(--line);
+}
+.tl-day-row th{
+  position:sticky;top:22px;
+  background:#1a1e24;
+  color:var(--text-dim);
+  font-family:var(--font-mono);
+  font-weight:600;
+  font-size:9.5px;
+  padding:4px 2px;
+  text-align:center;
+  z-index:3;
+  border-bottom:1px solid var(--line);
+  width:30px;
+  min-width:30px;
+}
+.tl-day-row th.weekend{color:var(--text-faint);background:#15181d;}
+.tl-day-row th.holiday{color:var(--red);}
+.tl-corner{
+  position:sticky;left:0;top:0;
+  background:#1a1e24;
+  z-index:5;
+  min-width:110px;
+}
+.tl-row-label{
+  position:sticky;left:0;
+  background:var(--bg-panel);
+  color:var(--text);
+  font-family:var(--font-mono);
+  font-weight:600;
+  font-size:10.5px;
+  padding:5px 8px;
+  text-align:left;
+  white-space:nowrap;
+  z-index:2;
+  border-right:1px solid var(--line);
+  min-width:110px;
+}
+.tl-table tr:hover .tl-row-label{background:#181c22;}
+.tl-cell{
+  width:30px;min-width:30px;height:24px;
+  cursor:pointer;
+  background:var(--bg-panel);
+  transition:background .1s;
+  position:relative;
+}
+.tl-cell.weekend{background:#181c22;}
+.tl-cell.holiday{background:rgba(255,90,90,.16);}
+.tl-cell.slot{border-radius:0;}
+.tl-cell:hover{outline:1px solid #666;outline-offset:-1px;}
+.tl-cell.pending{outline:2px solid var(--amber);outline-offset:-1px;}
+
+.dsec{margin-bottom:20px;}
+.dsec-title{
+  font-family:var(--font-display);
+  font-size:11px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--text-faint);
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.dsec-title .count{
+  font-family:var(--font-mono);
+  color:var(--text-dim);
+  background:var(--bg-inset);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:1px 8px;
+  font-size:10px;
+}
+.drow{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 8px;
+  border-radius:4px;
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--text);
+  cursor:pointer;
+  transition:background .12s;
+}
+.drow:hover{background:var(--bg-panel-raised);}
+.drow .drow-note{
+  margin-left:auto;
+  color:var(--text-faint);
+  font-size:10px;
+  font-family:var(--font-mono);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:120px;
+}
+.dempty{color:var(--text-faint);font-size:12px;font-style:italic;padding:6px 8px;}
+.subj-block{
+  border:1px solid var(--line);
+  border-radius:6px;
+  margin-bottom:8px;
+  overflow:hidden;
+}
+.subj-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 12px;
+  cursor:pointer;
+  background:var(--bg-panel-raised);
+}
+.subj-head:hover{background:#20252b;}
+.subj-name{
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:12.5px;
+  color:var(--text);
+}
+.subj-name small{display:block;font-family:var(--font-mono);font-weight:400;color:var(--text-faint);font-size:9.5px;margin-top:1px;}
+.subj-count{
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--yellow);
+  background:var(--yellow-dim);
+  border-radius:10px;
+  padding:2px 9px;
+  flex:none;
+}
+.subj-list{
+  padding:6px 10px 10px;
+  display:none;
+}
+.subj-block.open .subj-list{display:block;}
+.subj-block.open .subj-head{border-bottom:1px solid var(--line);}
+.subj-chevron{color:var(--text-faint);font-size:10px;transition:transform .15s;margin-left:8px;}
+.subj-block.open .subj-chevron{transform:rotate(90deg);}
+
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.6);
+  display:none;align-items:center;justify-content:center;z-index:50;
+  backdrop-filter:blur(2px);
+}
+.modal-overlay.open{display:flex;}
+.modal{
+  background:var(--bg-panel-raised);
+  border:1px solid var(--line);
+  border-radius:8px;
+  width:min(420px,92vw);
+  padding:20px;
+}
+.modal h3{
+  font-family:var(--font-display);
+  margin:0 0 14px;
+  font-size:16px;
+  color:#fff;
+}
+.modal label{
+  display:block;
+  font-size:10.5px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--text-faint);
+  margin:12px 0 5px;
+}
+.modal input{
+  width:100%;
+  background:var(--bg-inset);
+  border:1px solid var(--line);
+  color:var(--text);
+  font-family:var(--font-mono);
+  padding:9px 10px;
+  border-radius:4px;
+  font-size:13px;
+}
+.modal .modal-actions{
+  display:flex;justify-content:flex-end;gap:8px;margin-top:20px;
+}
+.modal .btn{padding:9px 16px;}
+
+@media (max-width:720px){
+  body{padding:14px 10px 40px;}
+  .panel-id{display:none;}
+  .legend .hint{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="rivets"></div>
+<header>
+  <div class="title-block">
+    <div class="eyebrow"><span class="dot"></span>CREW TRAINING · LIVE PANEL</div>
+    <h1>Theory <span>Release</span> Overview</h1>
+    <div class="subtitle">Per-crew status across the 13 ATPL theoretical subjects. Click any light to log a result, click KSA to mark complete, click notes to annotate.</div>
+  </div>
+  <div class="panel-id" id="panelClock">
+    <div><b>PANEL</b> AUSTRO-EXAMS-01</div>
+    <div id="clockLine">—</div>
+  </div>
+</header>
+
+<div class="gauges" id="gauges"></div>
+
+<div class="legend">
+  <span class="lg-title">Legend</span>
+  <span class="item"><span class="swatch green"></span>Passed exam</span>
+  <span class="item"><span class="swatch yellow"></span>Scheduled</span>
+  <span class="item"><span class="swatch blue"></span>Official exam passed</span>
+  <span class="item"><span class="swatch red"></span>Fail / not recommended</span>
+  <span class="item"><span class="swatch off"></span>Not attempted</span>
+  <span class="item"><span class="ksa-check checked" style="cursor:default;"></span>KSA completed</span>
+  <span class="hint">click a cell to cycle its state</span>
+</div>
+
+<div class="toolbar">
+  <div class="search-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input type="text" id="searchInput" placeholder="Search crew code…">
+  </div>
+  <div class="seg" id="filterSeg">
+    <button data-filter="all" class="active">All</button>
+    <button data-filter="complete">Completed</button>
+    <button data-filter="progress">In progress</button>
+    <button data-filter="notstarted">Not started</button>
+    <button data-filter="flag">Failing</button>
+  </div>
+  <div class="spacer"></div>
+  <div class="savebadge" id="saveBadge"><span class="sdot"></span><span id="saveText">Saved locally</span></div>
+  <button class="btn" id="addCrewBtn">+ Add crew</button>
+  <button class="btn" id="resetBtn">Reset to original</button>
+  <input type="file" id="importJsonInput" accept="application/json,.json" style="display:none;">
+  <button class="btn" id="importJsonBtn">Import JSON</button>
+  <button class="btn" id="exportJsonBtn">Export JSON</button>
+  <button class="btn primary" id="exportBtn">Export CSV</button>
+  <button class="btn" id="scheduleToggleBtn">◂ Schedules</button>
+</div>
+
+<div class="table-shell">
+  <table id="mainTable">
+    <colgroup id="colGroup">
+      <col style="width:100px;">
+      <col style="width:44px;"><col style="width:44px;"><col style="width:44px;"><col style="width:44px;">
+      <col style="width:44px;"><col style="width:44px;"><col style="width:44px;"><col style="width:44px;">
+      <col style="width:44px;"><col style="width:44px;"><col style="width:44px;"><col style="width:44px;">
+      <col style="width:44px;">
+      <col style="width:42px;">
+      <col style="width:46px;">
+      <col style="width:120px;">
+      <col style="width:160px;">
+    </colgroup>
+    <thead>
+      <tr id="headRow">
+        <th class="th-name">Crew</th>
+        <!-- subject th injected -->
+        <th>KSA</th>
+        <th>Total<small>exams</small></th>
+        <th style="text-align:left;padding-left:10px;">Status</th>
+        <th style="text-align:left;padding-left:10px;">Notes</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+    <tfoot>
+      <tr id="footRow"></tr>
+    </tfoot>
+  </table>
+</div>
+
+<footer class="page-footer">
+  <span id="footerCrewCount">13 ATPL theory subjects · data editable in-browser, saved to your Claude account</span>
+  <span id="lastUpdated"></span>
+</footer>
+
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <h3>Add crew member</h3>
+    <label>Crew code</label>
+    <input type="text" id="newCrewName" placeholder="e.g. JSMIT" maxlength="12">
+    <div class="modal-actions">
+      <button class="btn" id="cancelAdd">Cancel</button>
+      <button class="btn primary" id="confirmAdd">Add</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="importModal">
+  <div class="modal">
+    <h3 id="importModalTitle">Import result</h3>
+    <div id="importModalBody" style="font-size:12.5px;color:var(--text-dim);line-height:1.6;"></div>
+    <div class="modal-actions">
+      <button class="btn primary" id="importModalOk">OK</button>
+    </div>
+  </div>
+</div>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<aside class="drawer" id="scheduleDrawer">
+  <nav class="drawer-rail">
+    <div class="rail-eyebrow">Planning</div>
+    <button class="drawer-tab active" data-dtab="ksa">
+      <span class="dt-icon">◆</span>
+      <span>KSA<br>Schedule</span>
+    </button>
+    <button class="drawer-tab" data-dtab="course">
+      <span class="dt-icon">▦</span>
+      <span>Course<br>Schedules</span>
+    </button>
+    <button class="drawer-close" id="drawerCloseBtn">✕ Close</button>
+  </nav>
+  <div class="drawer-content">
+    <div class="drawer-head" id="drawerHead"></div>
+    <div class="drawer-body" id="drawerBody"></div>
+  </div>
+</aside>
+
+<div class="modal-overlay" id="slotModal">
+  <div class="modal">
+    <h3>New class slot</h3>
+    <label>Subject / block</label>
+    <select id="slotSubject" style="width:100%;background:var(--bg-inset);border:1px solid var(--line);color:var(--text);font-family:var(--font-mono);padding:9px 10px;border-radius:4px;font-size:13px;"></select>
+    <label>Promotion / group</label>
+    <select id="slotPromo" style="width:100%;background:var(--bg-inset);border:1px solid var(--line);color:var(--text);font-family:var(--font-mono);padding:9px 10px;border-radius:4px;font-size:13px;"></select>
+    <input type="text" id="slotPromoOther" placeholder="Enter group name" style="display:none;margin-top:8px;">
+    <label>Start date</label>
+    <input type="date" id="slotStart">
+    <label>End date</label>
+    <input type="date" id="slotEnd">
+    <div class="modal-actions">
+      <button class="btn" id="cancelSlot">Cancel</button>
+      <button class="btn primary" id="confirmSlot">Create slot</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUBJECTS = ["AL", "AGK", "INST", "MB", "PERF", "FPM", "HPL", "MET", "GNAV", "RNAV", "OPS", "POF", "COMS"];
+const SUBJECT_FULL = {"AL": "Air Law", "AGK": "Aircraft General Knowledge", "INST": "Instrumentation", "MB": "Mass & Balance", "PERF": "Performance", "FPM": "Flight Planning & Monitoring", "HPL": "Human Performance & Limitations", "MET": "Meteorology", "GNAV": "General Navigation", "RNAV": "Radio Navigation", "OPS": "Operational Procedures", "POF": "Principles of Flight", "COMS": "Communications"};
+const RAW_DATA = [{"name": "DBENC", "status_text": null, "status_color": null, "subjects": {"AL": null, "AGK": null, "INST": null, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": null, "OPS": {"value": 1, "color": "blue", "synthetic": true}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": null}, "ksa": null, "applic": 0, "notes": null}, {"name": "LSUAR", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": null, "OPS": null, "POF": null, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 0, "notes": null}, {"name": "LPAWE", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "blue", "synthetic": true}, "MB": {"value": 1, "color": "yellow"}, "PERF": {"value": 1, "color": "yellow"}, "FPM": null, "HPL": {"value": 1, "color": "yellow"}, "MET": null, "GNAV": null, "RNAV": {"value": 1, "color": "yellow"}, "OPS": {"value": 1, "color": "blue", "synthetic": true}, "POF": {"value": 1, "color": "yellow"}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 5, "notes": null}, {"name": "AALMO", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "green"}, "AGK": {"value": 1, "color": "green"}, "INST": null, "MB": null, "PERF": null, "FPM": {"value": 1, "color": "blue", "synthetic": true}, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "green"}, "GNAV": {"value": 1, "color": "green"}, "RNAV": null, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "green"}, "COMS": {"value": 1, "color": "green"}}, "ksa": null, "applic": 8, "notes": null}, {"name": "YPONS", "status_text": null, "status_color": null, "subjects": {"AL": null, "AGK": {"value": 1, "color": "yellow"}, "INST": {"value": 1, "color": "green"}, "MB": null, "PERF": null, "FPM": null, "HPL": null, "MET": {"value": 1, "color": "green"}, "GNAV": null, "RNAV": null, "OPS": {"value": 1, "color": "yellow"}, "POF": null, "COMS": null}, "ksa": "c", "applic": 4, "notes": "SITTING RESET"}, {"name": "EZANC", "status_text": null, "status_color": null, "subjects": {"AL": null, "AGK": {"value": 1, "color": "yellow"}, "INST": {"value": 1, "color": "yellow"}, "MB": null, "PERF": null, "FPM": null, "HPL": null, "MET": {"value": 1, "color": "yellow"}, "GNAV": null, "RNAV": null, "OPS": {"value": 1, "color": "yellow"}, "POF": null, "COMS": null}, "ksa": "c", "applic": 4, "notes": "SITTING RESET"}, {"name": "AROSA", "status_text": null, "status_color": null, "subjects": {"AL": null, "AGK": null, "INST": {"value": 1, "color": "green"}, "MB": null, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": {"value": 1, "color": "green"}, "OPS": null, "POF": {"value": 1, "color": "yellow"}, "COMS": null}, "ksa": "c", "applic": 3, "notes": "SITTING RESET"}, {"name": "DYAKY", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "green"}, "INST": {"value": 1, "color": "blue", "synthetic": true}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": null, "FPM": null, "HPL": {"value": 1, "color": "blue", "synthetic": true}, "MET": {"value": 1, "color": "green"}, "GNAV": {"value": 1, "color": "green"}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "blue", "synthetic": true}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 3, "notes": "APPLICATION RECEIVED"}, {"name": "MONTO", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "blue", "synthetic": true}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "yellow"}, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "blue", "synthetic": true}, "MET": {"value": 1, "color": "yellow"}, "GNAV": {"value": 1, "color": "yellow"}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "blue", "synthetic": true}, "POF": {"value": 1, "color": "yellow"}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 5, "notes": null}, {"name": "RDOMI", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": null, "FPM": {"value": 1, "color": "blue", "synthetic": true}, "HPL": null, "MET": {"value": 1, "color": "blue", "synthetic": true}, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "blue", "synthetic": true}, "POF": null, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 0, "notes": null}, {"name": "RGOPA", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "blue", "synthetic": true}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "blue", "synthetic": true}, "MET": {"value": 1, "color": "yellow"}, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "blue", "synthetic": true}, "POF": {"value": 1, "color": "green"}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 3, "notes": null}, {"name": "MSANG", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "blue", "synthetic": true}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": {"value": 1, "color": "blue", "synthetic": true}, "HPL": {"value": 1, "color": "blue", "synthetic": true}, "MET": {"value": 1, "color": "blue", "synthetic": true}, "GNAV": null, "RNAV": null, "OPS": null, "POF": null, "COMS": null}, "ksa": "c", "applic": 0, "notes": "GNAV FAIL 74"}, {"name": "ASALA", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "blue", "synthetic": true}, "MB": {"value": 1, "color": "green"}, "PERF": {"value": 1, "color": "green"}, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "blue", "synthetic": true}, "MET": {"value": 1, "color": "blue", "synthetic": true}, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "blue", "synthetic": true}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 3, "notes": null}, {"name": "JCLOP", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "yellow"}, "INST": {"value": 1, "color": "yellow"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "yellow"}, "FPM": null, "HPL": {"value": 1, "color": "blue", "synthetic": true}, "MET": {"value": 1, "color": "yellow"}, "GNAV": null, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "blue", "synthetic": true}, "POF": {"value": 1, "color": "yellow"}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 5, "notes": null}, {"name": "LDALL", "status_text": null, "status_color": null, "subjects": {"AL": null, "AGK": null, "INST": null, "MB": null, "PERF": null, "FPM": null, "HPL": null, "MET": {"value": 1, "color": "blue", "synthetic": true}, "GNAV": null, "RNAV": null, "OPS": {"value": 1, "color": "blue", "synthetic": true}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 0, "notes": null}, {"name": "LGIOR", "status_text": null, "status_color": null, "subjects": {"AL": null, "AGK": null, "INST": null, "MB": null, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": null, "OPS": null, "POF": null, "COMS": null}, "ksa": null, "applic": 0, "notes": null}, {"name": "FBAUS", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "green"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": null, "FPM": {"value": 1, "color": "green"}, "HPL": {"value": 1, "color": "blue", "synthetic": true}, "MET": {"value": 1, "color": "blue", "synthetic": true}, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": null, "POF": {"value": 1, "color": "yellow"}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 3, "notes": "POF 1 fail"}, {"name": "HSCOT", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "blue", "synthetic": true}, "MB": null, "PERF": null, "FPM": null, "HPL": {"value": 1, "color": "blue", "synthetic": true}, "MET": {"value": 1, "color": "blue", "synthetic": true}, "GNAV": null, "RNAV": null, "OPS": {"value": 1, "color": "blue", "synthetic": true}, "POF": null, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 0, "notes": null}, {"name": "ALUCI", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "green"}, "INST": {"value": 1, "color": "green"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": null, "FPM": null, "HPL": {"value": 1, "color": "green"}, "MET": null, "GNAV": {"value": 1, "color": "green"}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "blue", "synthetic": true}, "POF": null, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 4, "notes": null}, {"name": "RRIVE", "status_text": null, "status_color": null, "subjects": {"AL": null, "AGK": null, "INST": {"value": 1, "color": "red"}, "MB": null, "PERF": null, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "red"}, "MET": {"value": 1, "color": "yellow"}, "GNAV": null, "RNAV": null, "OPS": null, "POF": null, "COMS": {"value": 1, "color": "green"}}, "ksa": null, "applic": 5, "notes": "NOT RECOMMENDED"}, {"name": "JSEIF", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": null, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": null, "HPL": {"value": 1, "color": "yellow"}, "MET": null, "GNAV": {"value": 1, "color": "yellow"}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 3, "notes": null}, {"name": "LBATT", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "green"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "yellow"}, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 5, "notes": "MET70"}, {"name": "ALHER", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "green"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "yellow"}, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 5, "notes": "MET70"}, {"name": "ALROD", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "green"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": null, "HPL": {"value": 1, "color": "green"}, "MET": null, "GNAV": {"value": 1, "color": "yellow"}, "RNAV": null, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 4, "notes": null}, {"name": "CSOCO", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "green"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": null, "FPM": null, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "yellow"}, "GNAV": null, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 4, "notes": null}, {"name": "DCARM", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "yellow"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "yellow"}, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 5, "notes": null}, {"name": "EDELG", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "green"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "green"}, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 5, "notes": null}, {"name": "FRUSS", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "yellow"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "yellow"}, "MET": {"value": 1, "color": "green"}, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 5, "notes": null}, {"name": "GSAPO", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "green"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": null, "HPL": null, "MET": {"value": 1, "color": "green"}, "GNAV": null, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "yellow"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 3, "notes": null}, {"name": "IPLEB", "status_text": null, "status_color": null, "subjects": {"AL": null, "AGK": null, "INST": {"value": 1, "color": "yellow"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "green"}, "GNAV": null, "RNAV": {"value": 1, "color": "yellow"}, "OPS": {"value": 1, "color": "green"}, "POF": null, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 6, "notes": null}, {"name": "ITRUJ", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "green"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "green"}, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 5, "notes": null}, {"name": "JARUI", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "green"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": null, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "yellow"}, "GNAV": null, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 4, "notes": null}, {"name": "LGERS", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "green"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "yellow"}, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 5, "notes": "MET 67"}, {"name": "LSAAV", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "yellow"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "yellow"}, "MET": {"value": 1, "color": "green"}, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 5, "notes": null}, {"name": "MONIS", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "green"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "green"}, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "yellow"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 5, "notes": "APPLICATION RECEIVED"}, {"name": "NGONZ", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "green"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "yellow"}, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 5, "notes": null}, {"name": "NIROD", "status_text": null, "status_color": null, "subjects": {"AL": null, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "yellow"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": null, "HPL": {"value": 1, "color": "green"}, "MET": null, "GNAV": null, "RNAV": null, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 3, "notes": null}, {"name": "SKHIL", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "green"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "yellow"}, "FPM": null, "HPL": {"value": 1, "color": "green"}, "MET": null, "GNAV": null, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 4, "notes": null}, {"name": "VIROD", "status_text": null, "status_color": null, "subjects": {"AL": null, "AGK": null, "INST": null, "MB": {"value": 1, "color": "green"}, "PERF": {"value": 1, "color": "yellow"}, "FPM": null, "HPL": {"value": 1, "color": "green"}, "MET": null, "GNAV": null, "RNAV": null, "OPS": {"value": 1, "color": "yellow"}, "POF": null, "COMS": {"value": 1, "color": "green"}}, "ksa": "c", "applic": 5, "notes": null}, {"name": "VSHEL", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "green"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "green"}, "GNAV": null, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "yellow"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 5, "notes": "OPS 1 fail, 59"}, {"name": "PAUST", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "yellow"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "yellow"}, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 5, "notes": null}, {"name": "ECOLL", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "yellow"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "yellow"}, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 5, "notes": null}, {"name": "DAGON", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "green"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": null, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "green"}, "GNAV": null, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 4, "notes": null}, {"name": "PGRIM", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "yellow"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "yellow"}, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 5, "notes": null}, {"name": "CRODR", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": null, "HPL": {"value": 1, "color": "yellow"}, "MET": {"value": 1, "color": "yellow"}, "GNAV": {"value": 1, "color": "yellow"}, "RNAV": null, "OPS": null, "POF": null, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 3, "notes": null}, {"name": "ILONI", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "yellow"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "yellow"}, "GNAV": null, "RNAV": null, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 5, "notes": null}, {"name": "AMEDE", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": null, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": null, "OPS": null, "POF": null, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 0, "notes": null}, {"name": "RKONI", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "yellow"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": null, "HPL": {"value": 1, "color": "yellow"}, "MET": null, "GNAV": null, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "yellow"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 3, "notes": null}, {"name": "JGARC", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": null, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": null, "FPM": {"value": 1, "color": "yellow"}, "HPL": {"value": 1, "color": "green"}, "MET": null, "GNAV": null, "RNAV": null, "OPS": {"value": 1, "color": "yellow"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 3, "notes": "OPS 1 fail"}, {"name": "AMEYE", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": {"value": 1, "color": "green"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": null, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "green"}, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 4, "notes": null}, {"name": "PBATI", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "yellow"}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": null, "HPL": {"value": 1, "color": "green"}, "MET": null, "GNAV": null, "RNAV": {"value": 1, "color": "blue", "synthetic": true}, "OPS": {"value": 1, "color": "yellow"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 3, "notes": null}, {"name": "AMORA", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": {"value": 1, "color": "yellow"}, "MB": {"value": 1, "color": "yellow"}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": null, "HPL": {"value": 1, "color": "green"}, "MET": null, "GNAV": null, "RNAV": null, "OPS": null, "POF": {"value": 1, "color": "yellow"}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 4, "notes": null}, {"name": "DORTI", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": null, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": null, "OPS": null, "POF": null, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": "c", "applic": 0, "notes": null}, {"name": "EDSAN", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": null, "MB": null, "PERF": null, "FPM": {"value": 1, "color": "blue", "synthetic": true}, "HPL": {"value": 1, "color": "blue", "synthetic": true}, "MET": null, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": null, "OPS": {"value": 1, "color": "blue", "synthetic": true}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 0, "notes": null}, {"name": "LECAS", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "yellow"}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "green"}, "PERF": {"value": 1, "color": "yellow"}, "FPM": null, "HPL": null, "MET": null, "GNAV": {"value": 1, "color": "yellow"}, "RNAV": {"value": 1, "color": "green"}, "OPS": null, "POF": {"value": 1, "color": "yellow"}, "COMS": {"value": 1, "color": "green"}}, "ksa": null, "applic": 7, "notes": "AL / POF / PERF 1 fail , ALL 70s, GNAV 74"}, {"name": "MDIMA", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "green"}, "PERF": {"value": 1, "color": "green"}, "FPM": null, "HPL": null, "MET": null, "GNAV": {"value": 1, "color": "green"}, "RNAV": {"value": 1, "color": "green"}, "OPS": null, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 4, "notes": "APPLICATION RECEIVED"}, {"name": "SVITO", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "green"}, "PERF": {"value": 1, "color": "yellow"}, "FPM": null, "HPL": null, "MET": null, "GNAV": {"value": 1, "color": "yellow"}, "RNAV": {"value": 1, "color": "yellow"}, "OPS": null, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 4, "notes": "PERF 62. rnav 68, GNAV 70"}, {"name": "ABENI", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "yellow"}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "green"}, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": null, "OPS": null, "POF": {"value": 1, "color": "yellow"}, "COMS": {"value": 1, "color": "yellow"}}, "ksa": null, "applic": 4, "notes": null}, {"name": "ADEMA", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "yellow"}, "PERF": {"value": 1, "color": "yellow"}, "FPM": null, "HPL": null, "MET": null, "GNAV": {"value": 1, "color": "yellow"}, "RNAV": {"value": 1, "color": "yellow"}, "OPS": null, "POF": null, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 4, "notes": null}, {"name": "AKKER", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "green"}, "PERF": {"value": 1, "color": "green"}, "FPM": null, "HPL": null, "MET": null, "GNAV": {"value": 1, "color": "yellow"}, "RNAV": {"value": 1, "color": "green"}, "OPS": null, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 4, "notes": "GNAV FAIL 72"}, {"name": "ALORO", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "yellow"}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "yellow"}, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": {"value": 1, "color": "yellow"}, "OPS": null, "POF": {"value": 1, "color": "yellow"}, "COMS": {"value": 1, "color": "yellow"}}, "ksa": null, "applic": 5, "notes": "AL , COMS 1 fail , ORAL-RNAV-38"}, {"name": "CGUTI", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "yellow"}, "PERF": {"value": 1, "color": "yellow"}, "FPM": null, "HPL": null, "MET": null, "GNAV": {"value": 1, "color": "yellow"}, "RNAV": {"value": 1, "color": "yellow"}, "OPS": null, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 4, "notes": "PERF FAIL 73 / MB FAIL 68"}, {"name": "CHOYO", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "green"}, "PERF": {"value": 1, "color": "yellow"}, "FPM": null, "HPL": null, "MET": null, "GNAV": {"value": 1, "color": "green"}, "RNAV": {"value": 1, "color": "green"}, "OPS": null, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 4, "notes": null}, {"name": "DGARC", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "green"}, "PERF": {"value": 1, "color": "green"}, "FPM": null, "HPL": null, "MET": null, "GNAV": {"value": 1, "color": "green"}, "RNAV": {"value": 1, "color": "green"}, "OPS": null, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 4, "notes": null}, {"name": "DIFER", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "green"}, "PERF": {"value": 1, "color": "green"}, "FPM": null, "HPL": null, "MET": null, "GNAV": {"value": 1, "color": "green"}, "RNAV": {"value": 1, "color": "green"}, "OPS": null, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 4, "notes": null}, {"name": "EVAND", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "green"}, "PERF": {"value": 1, "color": "green"}, "FPM": null, "HPL": null, "MET": null, "GNAV": {"value": 1, "color": "green"}, "RNAV": {"value": 1, "color": "green"}, "OPS": null, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 4, "notes": null}, {"name": "FATRI", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "green"}, "PERF": {"value": 1, "color": "green"}, "FPM": null, "HPL": null, "MET": null, "GNAV": {"value": 1, "color": "green"}, "RNAV": {"value": 1, "color": "green"}, "OPS": null, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 4, "notes": null}, {"name": "GPAGA", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "green"}, "PERF": {"value": 1, "color": "yellow"}, "FPM": null, "HPL": null, "MET": null, "GNAV": {"value": 1, "color": "yellow"}, "RNAV": {"value": 1, "color": "green"}, "OPS": null, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 4, "notes": null}, {"name": "IIMRA", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "yellow"}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "yellow"}, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": null, "OPS": null, "POF": {"value": 1, "color": "yellow"}, "COMS": {"value": 1, "color": "yellow"}}, "ksa": null, "applic": 4, "notes": null}, {"name": "JAROC", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "yellow"}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "red"}, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": {"value": 1, "color": "red"}, "OPS": null, "POF": null, "COMS": {"value": 1, "color": "yellow"}}, "ksa": null, "applic": 4, "notes": "RNAV 65"}, {"name": "MAMAR", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "green"}, "PERF": {"value": 1, "color": "yellow"}, "FPM": null, "HPL": null, "MET": null, "GNAV": {"value": 1, "color": "yellow"}, "RNAV": {"value": 1, "color": "yellow"}, "OPS": null, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 4, "notes": "RNAV 54"}, {"name": "MMEND", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "green"}, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": {"value": 1, "color": "yellow"}, "RNAV": {"value": 1, "color": "yellow"}, "OPS": null, "POF": {"value": 1, "color": "yellow"}, "COMS": null}, "ksa": null, "applic": 4, "notes": null}, {"name": "MSHIW", "status_text": null, "status_color": null, "subjects": {"AL": null, "AGK": null, "INST": null, "MB": null, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": null, "OPS": null, "POF": null, "COMS": null}, "ksa": null, "applic": 0, "notes": null}, {"name": "SALAM", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "green"}, "PERF": {"value": 1, "color": "yellow"}, "FPM": null, "HPL": null, "MET": null, "GNAV": {"value": 1, "color": "yellow"}, "RNAV": {"value": 1, "color": "yellow"}, "OPS": null, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 4, "notes": "PERF FAIL 68"}, {"name": "VRUSC", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": null, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": null, "OPS": null, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 0, "notes": "PERF 1 fail"}, {"name": "SACRU", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": null, "MB": null, "PERF": null, "FPM": {"value": 1, "color": "blue", "synthetic": true}, "HPL": {"value": 1, "color": "blue", "synthetic": true}, "MET": {"value": 1, "color": "blue", "synthetic": true}, "GNAV": null, "RNAV": null, "OPS": {"value": 1, "color": "blue", "synthetic": true}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 0, "notes": null}, {"name": "DCEPU", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": null, "PERF": null, "FPM": {"value": 1, "color": "blue", "synthetic": true}, "HPL": {"value": 1, "color": "blue", "synthetic": true}, "MET": null, "GNAV": null, "RNAV": null, "OPS": {"value": 1, "color": "blue", "synthetic": true}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 0, "notes": null}, {"name": "BZUFA", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": null, "MB": null, "PERF": null, "FPM": {"value": 1, "color": "blue", "synthetic": true}, "HPL": {"value": 1, "color": "blue", "synthetic": true}, "MET": {"value": 1, "color": "green"}, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": null, "OPS": {"value": 1, "color": "blue", "synthetic": true}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 1, "notes": null}, {"name": "PLOZZ", "status_text": null, "status_color": null, "subjects": {"AL": null, "AGK": null, "INST": null, "MB": null, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": null, "OPS": null, "POF": null, "COMS": null}, "ksa": null, "applic": 0, "notes": null}, {"name": "GUBIS", "status_text": null, "status_color": null, "subjects": {"AL": null, "AGK": null, "INST": null, "MB": {"value": 1, "color": "green"}, "PERF": {"value": 1, "color": "blue", "synthetic": true}, "FPM": {"value": 1, "color": "green"}, "HPL": {"value": 1, "color": "green"}, "MET": null, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": {"value": 1, "color": "green"}, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 5, "notes": "APPLICATION RECEIVED"}, {"name": "IARIJ", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "blue", "synthetic": true}, "AGK": null, "INST": null, "MB": {"value": 1, "color": "yellow"}, "PERF": null, "FPM": null, "HPL": {"value": 1, "color": "yellow"}, "MET": {"value": 1, "color": "yellow"}, "GNAV": null, "RNAV": null, "OPS": {"value": 1, "color": "blue", "synthetic": true}, "POF": null, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 3, "notes": null}, {"name": "FPADR", "status_text": null, "status_color": null, "subjects": {"AL": null, "AGK": null, "INST": {"value": 1, "color": "blue", "synthetic": true}, "MB": {"value": 1, "color": "blue", "synthetic": true}, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": null, "OPS": null, "POF": null, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 0, "notes": null}, {"name": "CORRI", "status_text": null, "status_color": null, "subjects": {"AL": null, "AGK": null, "INST": null, "MB": null, "PERF": null, "FPM": null, "HPL": {"value": 1, "color": "blue", "synthetic": true}, "MET": null, "GNAV": null, "RNAV": null, "OPS": {"value": 1, "color": "blue", "synthetic": true}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 0, "notes": null}, {"name": "AGARC", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "yellow"}, "AGK": null, "INST": null, "MB": null, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": null, "OPS": null, "POF": {"value": 1, "color": "yellow"}, "COMS": {"value": 1, "color": "green"}}, "ksa": null, "applic": 3, "notes": null}, {"name": "AGUEN", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "yellow"}, "AGK": null, "INST": null, "MB": null, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": null, "OPS": null, "POF": {"value": 1, "color": "yellow"}, "COMS": {"value": 1, "color": "green"}}, "ksa": null, "applic": 3, "notes": null}, {"name": "CJPER", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "yellow"}, "AGK": null, "INST": null, "MB": null, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": null, "OPS": null, "POF": {"value": 1, "color": "yellow"}, "COMS": {"value": 1, "color": "green"}}, "ksa": null, "applic": 3, "notes": null}, {"name": "CTREN", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "green"}, "AGK": null, "INST": null, "MB": null, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": null, "OPS": null, "POF": {"value": 1, "color": "green"}, "COMS": {"value": 1, "color": "green"}}, "ksa": null, "applic": 3, "notes": null}, {"name": "JBECK", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "yellow"}, "AGK": null, "INST": null, "MB": null, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": null, "OPS": null, "POF": {"value": 1, "color": "yellow"}, "COMS": {"value": 1, "color": "yellow"}}, "ksa": null, "applic": 3, "notes": null}, {"name": "LROSS", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "yellow"}, "AGK": null, "INST": null, "MB": null, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": null, "OPS": null, "POF": {"value": 1, "color": "yellow"}, "COMS": {"value": 1, "color": "green"}}, "ksa": null, "applic": 3, "notes": null}, {"name": "MEIJE", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "yellow"}, "AGK": null, "INST": null, "MB": null, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": null, "OPS": null, "POF": {"value": 1, "color": "yellow"}, "COMS": {"value": 1, "color": "yellow"}}, "ksa": null, "applic": 3, "notes": null}, {"name": "NISCH", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "yellow"}, "AGK": null, "INST": null, "MB": null, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": null, "OPS": null, "POF": {"value": 1, "color": "yellow"}, "COMS": {"value": 1, "color": "yellow"}}, "ksa": null, "applic": 3, "notes": null}, {"name": "VDORO", "status_text": null, "status_color": null, "subjects": {"AL": null, "AGK": null, "INST": null, "MB": null, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": null, "OPS": null, "POF": null, "COMS": null}, "ksa": null, "applic": 0, "notes": "NOT RECOMMENDED"}, {"name": "DFLOR", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "yellow"}, "AGK": null, "INST": null, "MB": null, "PERF": null, "FPM": null, "HPL": null, "MET": null, "GNAV": null, "RNAV": null, "OPS": null, "POF": {"value": 1, "color": "yellow"}, "COMS": {"value": 1, "color": "green"}}, "ksa": null, "applic": 3, "notes": "AL 1 fail ,"}, {"name": "FDIEZ", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "green"}, "AGK": {"value": 1, "color": "green"}, "INST": null, "MB": null, "PERF": null, "FPM": {"value": 1, "color": "green"}, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "green"}, "GNAV": {"value": 1, "color": "green"}, "RNAV": null, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "green"}, "COMS": {"value": 1, "color": "green"}}, "ksa": null, "applic": 9, "notes": "APPLICATION RECEIVED"}, {"name": "ASUGA", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "yellow"}, "AGK": {"value": 1, "color": "blue", "synthetic": true}, "INST": null, "MB": null, "PERF": null, "FPM": {"value": 1, "color": "blue", "synthetic": true}, "HPL": {"value": 1, "color": "blue", "synthetic": true}, "MET": {"value": 1, "color": "blue", "synthetic": true}, "GNAV": {"value": 1, "color": "blue", "synthetic": true}, "RNAV": null, "OPS": {"value": 1, "color": "blue", "synthetic": true}, "POF": {"value": 1, "color": "blue", "synthetic": true}, "COMS": {"value": 1, "color": "blue", "synthetic": true}}, "ksa": null, "applic": 1, "notes": null}, {"name": "MANDE", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "green"}, "AGK": {"value": 1, "color": "green"}, "INST": null, "MB": null, "PERF": null, "FPM": {"value": 1, "color": "green"}, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "green"}, "GNAV": {"value": 1, "color": "green"}, "RNAV": null, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "green"}, "COMS": {"value": 1, "color": "green"}}, "ksa": null, "applic": 9, "notes": "APPLICATION RECEIVED"}, {"name": "MMALH", "status_text": null, "status_color": null, "subjects": {"AL": {"value": 1, "color": "green"}, "AGK": {"value": 1, "color": "green"}, "INST": null, "MB": null, "PERF": null, "FPM": {"value": 1, "color": "green"}, "HPL": {"value": 1, "color": "green"}, "MET": {"value": 1, "color": "green"}, "GNAV": {"value": 1, "color": "green"}, "RNAV": null, "OPS": {"value": 1, "color": "green"}, "POF": {"value": 1, "color": "green"}, "COMS": {"value": 1, "color": "green"}}, "ksa": null, "applic": 9, "notes": null}];
+const SUMMARY_BOX = {"expected_total_exams": 285, "expected_examiner_fee": 1500, "expected_sitting_days": 5, "exp_fee_per_exam": 5.26};
+
+const KSA_MISSIONS_DATA = [{"name": "ALHER", "missions": {"1": {"code": "C", "color": "green"}, "2": {"code": "C", "color": "green"}, "3": {"code": "C", "color": "green"}, "4": {"code": "C", "color": "green"}, "5": {"code": "C", "color": "green"}, "6": {"code": "C", "color": "green"}, "7": {"code": "S", "color": "yellow"}, "8": {"code": "S", "color": "yellow"}, "9": {"code": "S", "color": "yellow"}, "10": {"code": "S", "color": "yellow"}}}, {"name": "ALROD", "missions": {"1": {"code": "C", "color": "green"}, "2": {"code": "C", "color": "green"}, "3": {"code": "C", "color": "green"}, "4": {"code": "C", "color": "green"}, "5": {"code": "C", "color": "green"}, "6": {"code": "C", "color": "green"}, "7": {"code": "S", "color": "yellow"}, "8": {"code": "S", "color": "yellow"}, "9": {"code": "S", "color": "yellow"}, "10": {"code": "S", "color": "yellow"}}}, {"name": "CSOCO", "missions": {"1": {"code": "C", "color": "green"}, "2": {"code": "C", "color": "green"}, "3": {"code": "C", "color": "green"}, "4": {"code": "C", "color": "green"}, "5": {"code": "C", "color": "green"}, "6": {"code": "C", "color": "green"}, "7": {"code": "S", "color": "yellow"}, "8": {"code": "S", "color": "yellow"}, "9": {"code": "S", "color": "yellow"}, "10": {"code": "S", "color": "yellow"}}}, {"name": "DCARM", "missions": {"1": {"code": "C", "color": "green"}, "2": null, "3": null, "4": {"code": "C", "color": "green"}, "5": {"code": "C", "color": "green"}, "6": {"code": "C", "color": "green"}, "7": {"code": "S", "color": "yellow"}, "8": {"code": "S", "color": "yellow"}, "9": {"code": "S", "color": "yellow"}, "10": {"code": "S", "color": "yellow"}}}, {"name": "EDELG", "missions": {"1": {"code": "C", "color": "green"}, "2": {"code": "C", "color": "green"}, "3": {"code": "C", "color": "green"}, "4": {"code": "C", "color": "green"}, "5": {"code": "C", "color": "green"}, "6": {"code": "C", "color": "green"}, "7": {"code": "S", "color": "yellow"}, "8": {"code": "S", "color": "yellow"}, "9": {"code": "S", "color": "yellow"}, "10": {"code": "S", "color": "yellow"}}}, {"name": "FRUSS", "missions": {"1": {"code": "C", "color": "green"}, "2": {"code": "C", "color": "green"}, "3": {"code": "C", "color": "green"}, "4": {"code": "C", "color": "green"}, "5": {"code": "C", "color": "green"}, "6": {"code": "C", "color": "green"}, "7": {"code": "S", "color": "yellow"}, "8": {"code": "S", "color": "yellow"}, "9": {"code": "S", "color": "yellow"}, "10": {"code": "S", "color": "yellow"}}}, {"name": "GSAPO", "missions": {"1": {"code": "C", "color": "green"}, "2": {"code": "C", "color": "green"}, "3": {"code": "C", "color": "green"}, "4": {"code": "C", "color": "green"}, "5": {"code": "C", "color": "green"}, "6": {"code": "C", "color": "green"}, "7": {"code": "S", "color": "yellow"}, "8": {"code": "S", "color": "yellow"}, "9": {"code": "S", "color": "yellow"}, "10": {"code": "S", "color": "yellow"}}}, {"name": "IPLEB", "missions": {"1": {"code": "C", "color": "green"}, "2": {"code": "C", "color": "green"}, "3": {"code": "C", "color": "green"}, "4": {"code": "C", "color": "green"}, "5": {"code": "C", "color": "green"}, "6": {"code": "C", "color": "green"}, "7": {"code": "S", "color": "yellow"}, "8": {"code": "S", "color": "yellow"}, "9": {"code": "S", "color": "yellow"}, "10": {"code": "S", "color": "yellow"}}}, {"name": "ITRUJ", "missions": {"1": {"code": "C", "color": "green"}, "2": {"code": "C", "color": "green"}, "3": {"code": "C", "color": "green"}, "4": {"code": "C", "color": "green"}, "5": {"code": "C", "color": "green"}, "6": {"code": "C", "color": "green"}, "7": {"code": "S", "color": "yellow"}, "8": {"code": "S", "color": "yellow"}, "9": {"code": "S", "color": "yellow"}, "10": {"code": "S", "color": "yellow"}}}, {"name": "JARUI", "missions": {"1": {"code": "C", "color": "green"}, "2": {"code": "C", "color": "green"}, "3": {"code": "C", "color": "green"}, "4": {"code": "C", "color": "green"}, "5": {"code": "C", "color": "green"}, "6": {"code": "C", "color": "green"}, "7": {"code": "S", "color": "yellow"}, "8": {"code": "S", "color": "yellow"}, "9": {"code": "S", "color": "yellow"}, "10": {"code": "S", "color": "yellow"}}}, {"name": "LGERS", "missions": {"1": {"code": "C", "color": "green"}, "2": {"code": "C", "color": "green"}, "3": {"code": "C", "color": "green"}, "4": {"code": "C", "color": "green"}, "5": {"code": "C", "color": "green"}, "6": {"code": "C", "color": "green"}, "7": {"code": "S", "color": "yellow"}, "8": {"code": "S", "color": "yellow"}, "9": {"code": "S", "color": "yellow"}, "10": {"code": "S", "color": "yellow"}}}, {"name": "LSAAV", "missions": {"1": {"code": "C", "color": "green"}, "2": {"code": "C", "color": "green"}, "3": {"code": "C", "color": "green"}, "4": {"code": "C", "color": "green"}, "5": {"code": "C", "color": "green"}, "6": {"code": "C", "color": "green"}, "7": {"code": "S", "color": "yellow"}, "8": {"code": "S", "color": "yellow"}, "9": {"code": "S", "color": "yellow"}, "10": {"code": "S", "color": "yellow"}}}, {"name": "MONIS", "missions": {"1": {"code": "C", "color": "green"}, "2": {"code": "C", "color": "green"}, "3": {"code": "C", "color": "green"}, "4": {"code": "C", "color": "green"}, "5": {"code": "C", "color": "green"}, "6": {"code": "C", "color": "green"}, "7": {"code": "S", "color": "yellow"}, "8": {"code": "S", "color": "yellow"}, "9": {"code": "S", "color": "yellow"}, "10": {"code": "S", "color": "yellow"}}}, {"name": "NGONZ", "missions": {"1": {"code": "C", "color": "green"}, "2": {"code": "C", "color": "green"}, "3": {"code": "C", "color": "green"}, "4": {"code": "C", "color": "green"}, "5": {"code": "C", "color": "green"}, "6": {"code": "C", "color": "green"}, "7": {"code": "S", "color": "yellow"}, "8": {"code": "S", "color": "yellow"}, "9": {"code": "S", "color": "yellow"}, "10": {"code": "S", "color": "yellow"}}}, {"name": "NIROD", "missions": {"1": {"code": "C", "color": "green"}, "2": {"code": "C", "color": "green"}, "3": {"code": "C", "color": "green"}, "4": {"code": "C", "color": "green"}, "5": {"code": "C", "color": "green"}, "6": {"code": "C", "color": "green"}, "7": {"code": "S", "color": "yellow"}, "8": {"code": "S", "color": "yellow"}, "9": {"code": "S", "color": "yellow"}, "10": {"code": "S", "color": "yellow"}}}, {"name": "SKHIL", "missions": {"1": {"code": "C", "color": "green"}, "2": {"code": "C", "color": "green"}, "3": {"code": "C", "color": "green"}, "4": {"code": "C", "color": "green"}, "5": {"code": "C", "color": "green"}, "6": {"code": "C", "color": "green"}, "7": {"code": "S", "color": "yellow"}, "8": {"code": "S", "color": "yellow"}, "9": {"code": "S", "color": "yellow"}, "10": {"code": "S", "color": "yellow"}}}, {"name": "VSHEL", "missions": {"1": {"code": "C", "color": "green"}, "2": {"code": "C", "color": "green"}, "3": {"code": "C", "color": "green"}, "4": {"code": "C", "color": "green"}, "5": {"code": "C", "color": "green"}, "6": {"code": "C", "color": "green"}, "7": {"code": "S", "color": "yellow"}, "8": {"code": "S", "color": "yellow"}, "9": {"code": "S", "color": "yellow"}, "10": {"code": "S", "color": "yellow"}}}, {"name": "LBATT", "missions": {"1": {"code": "C", "color": "green"}, "2": {"code": "C", "color": "green"}, "3": {"code": "C", "color": "green"}, "4": {"code": "C", "color": "green"}, "5": {"code": "C", "color": "green"}, "6": {"code": "C", "color": "green"}, "7": {"code": "S", "color": "yellow"}, "8": {"code": "S", "color": "yellow"}, "9": {"code": "S", "color": "yellow"}, "10": {"code": "S", "color": "yellow"}}}, {"name": "VIROD", "missions": {"1": {"code": "C", "color": "green"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "ABENI", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "ADEMA", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "AKKER", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "ALORO", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "CGUTI", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "CHOYO", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "DGARC", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "DIFER", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "EVAND", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "FATRI", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "GPAGA", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "IIMRA", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "JAROC", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "MAMAR", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "MMEND", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "SALAM", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "LECAS", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "MDIMA", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "SVITO", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "AGARC", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "AGUEN", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "CJPER", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "CTREN", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "JBECK", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "LROSS", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "MEIJE", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "NISCH", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "VDORO", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}, {"name": "DFLOR", "missions": {"1": {"code": "P", "color": "red"}, "2": {"code": "P", "color": "red"}, "3": {"code": "P", "color": "red"}, "4": {"code": "P", "color": "red"}, "5": {"code": "P", "color": "red"}, "6": {"code": "P", "color": "red"}, "7": {"code": "P", "color": "red"}, "8": {"code": "P", "color": "red"}, "9": {"code": "P", "color": "red"}, "10": {"code": "P", "color": "red"}}}];
+const LPGC_HOLIDAYS = [{"date": "2026-01-01", "name": "Año Nuevo"}, {"date": "2026-01-06", "name": "Epifanía del Señor"}, {"date": "2026-02-17", "name": "Martes de Carnaval (local)"}, {"date": "2026-04-02", "name": "Jueves Santo"}, {"date": "2026-04-03", "name": "Viernes Santo"}, {"date": "2026-05-01", "name": "Fiesta del Trabajo"}, {"date": "2026-05-30", "name": "Día de Canarias"}, {"date": "2026-06-24", "name": "Fundación de la Ciudad / San Juan (local)"}, {"date": "2026-08-15", "name": "Asunción de la Virgen"}, {"date": "2026-09-08", "name": "Ntra. Sra. del Pino (Gran Canaria)"}, {"date": "2026-10-12", "name": "Fiesta Nacional de España"}, {"date": "2026-11-02", "name": "Todos los Santos (trasladado)"}, {"date": "2026-12-08", "name": "Inmaculada Concepción"}, {"date": "2026-12-25", "name": "Natividad del Señor"}, {"date": "2027-01-01", "name": "Año Nuevo"}, {"date": "2027-01-06", "name": "Epifanía del Señor"}, {"date": "2027-02-09", "name": "Martes de Carnaval (local, estimated)"}, {"date": "2027-03-25", "name": "Jueves Santo"}, {"date": "2027-03-26", "name": "Viernes Santo"}, {"date": "2027-05-01", "name": "Fiesta del Trabajo"}, {"date": "2027-05-30", "name": "Día de Canarias"}, {"date": "2027-06-24", "name": "Fundación de la Ciudad / San Juan (local, estimated)"}, {"date": "2027-08-16", "name": "Asunción de la Virgen (trasladado)"}, {"date": "2027-09-08", "name": "Ntra. Sra. del Pino (Gran Canaria)"}, {"date": "2027-10-12", "name": "Fiesta Nacional de España"}, {"date": "2027-11-01", "name": "Todos los Santos"}, {"date": "2027-12-06", "name": "Día de la Constitución"}, {"date": "2027-12-08", "name": "Inmaculada Concepción"}, {"date": "2027-12-25", "name": "Natividad del Señor"}];
+const PROM_GROUPS = ["PROM IX","PROM X","PROM XI","PROM XI TFN","PROM XII","PROM XIII","PROM XIV"];
+
+</script>
+<script>
+/* =========================================================
+   AUSTRO ATPL Theory Exams Panel — app logic
+   States cycle per subject light: off -> green -> yellow -> blue -> red -> off
+   KSA cycles: off -> c -> off
+   "COMPLETED" style rows (status_text set) render as a single banner row
+   and are excluded from the light-grid editing (kept as read display),
+   but can be reverted to per-subject editing via the row's status pill.
+   ========================================================= */
+
+const STATE_CYCLE = [null, 'green', 'yellow', 'blue', 'red'];
+const STORAGE_KEY = 'austro-exams-overrides-v1';
+
+let overrides = {};      // name -> { subjects:{}, ksa, notes, status_text, status_color, cleared:bool }
+let filterMode = 'all';
+let searchTerm = '';
+let saveTimer = null;
+
+/* ---------------- storage ---------------- */
+async function loadOverrides(){
+  try{
+    const res = await window.storage.get(STORAGE_KEY, false);
+    if(res && res.value){
+      overrides = JSON.parse(res.value);
+    }
+  }catch(e){
+    overrides = {};
+  }
+}
+
+function scheduleSave(){
+  const badge = document.getElementById('saveBadge');
+  const txt = document.getElementById('saveText');
+  badge.classList.add('saving');
+  txt.textContent = 'Saving…';
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async ()=>{
+    try{
+      await window.storage.set(STORAGE_KEY, JSON.stringify(overrides), false);
+      badge.classList.remove('saving');
+      txt.textContent = 'Saved locally';
+    }catch(e){
+      badge.classList.remove('saving');
+      txt.textContent = 'Save failed — changes kept this session';
+    }
+  }, 350);
+}
+
+/* ---------------- data helpers ---------------- */
+function getRecord(base){
+  // merge base (original) with override for this crew name
+  const ov = overrides[base.name];
+  if(!ov) return JSON.parse(JSON.stringify(base));
+  const merged = JSON.parse(JSON.stringify(base));
+  if(ov.cleared){
+    merged.status_text = null;
+    merged.status_color = null;
+  }
+  if(ov.status_text !== undefined) merged.status_text = ov.status_text;
+  if(ov.status_color !== undefined) merged.status_color = ov.status_color;
+  if(ov.subjects){
+    for(const k in ov.subjects){
+      merged.subjects[k] = ov.subjects[k];
+    }
+  }
+  if(ov.ksa !== undefined) merged.ksa = ov.ksa;
+  if(ov.notes !== undefined) merged.notes = ov.notes;
+  if(ov.removed) merged.removed = true;
+  return merged;
+}
+
+function getAllRecords(){
+  const extra = (overrides.__new__ || []);
+  const extraRecs = extra.map(n => getRecord({name:n, status_text:null, status_color:null, subjects:{}, ksa:null, notes:null, applic:null}));
+  return RAW_DATA.map(getRecord).concat(extraRecs).filter(r => !r.removed);
+}
+
+function subjectCount(rec){
+  let n = 0;
+  for(const s of SUBJECTS){ if(rec.subjects[s] && rec.subjects[s].value) n++; }
+  return n;
+}
+
+// Count of just green (passed) + yellow (scheduled) subjects — used for the
+// "Total exams" column, distinct from subjectCount() which also counts
+// blue/red and drives certification status.
+function greenYellowCount(rec){
+  let n = 0;
+  for(const s of SUBJECTS){
+    const info = rec.subjects[s];
+    if(info && (info.color === 'green' || info.color === 'yellow')) n++;
+  }
+  return n;
+}
+
+// Status rules:
+//  - Failing:   at least one subject marked red (fail / not recommended)
+//  - Completed: has been marked (green/yellow) and no yellow remains — every
+//               scheduled exam has turned into a pass
+//  - In progress: still has at least one yellow (scheduled) subject
+//  - Not started: nothing marked at all
+function rowStatus(rec){
+  if(rec.status_color === 'red') return 'flag';
+  let hasRed = false, hasGreen = false, hasYellow = false;
+  for(const s of SUBJECTS){
+    const info = rec.subjects[s];
+    if(!info || !info.color) continue;
+    if(info.color === 'red') hasRed = true;
+    else if(info.color === 'green') hasGreen = true;
+    else if(info.color === 'yellow') hasYellow = true;
+  }
+  if(hasRed) return 'flag';
+  if(!hasGreen && !hasYellow) return 'notstarted';
+  if(hasYellow) return 'progress';
+  return 'complete';
+}
+
+
+/* ---------------- mutation ---------------- */
+function ensureOverride(name){
+  if(!overrides[name]) overrides[name] = {};
+  return overrides[name];
+}
+
+function cycleSubject(name, subj, base){
+  const rec = getRecord(base);
+  const cur = rec.subjects[subj] ? rec.subjects[subj].color : null;
+  const idx = STATE_CYCLE.indexOf(cur);
+  const next = STATE_CYCLE[(idx + 1) % STATE_CYCLE.length];
+  const ov = ensureOverride(name);
+  if(!ov.subjects) ov.subjects = {};
+  ov.subjects[subj] = next ? {value:1, color: next} : null;
+  scheduleSave();
+}
+
+function toggleKsa(name, base){
+  const rec = getRecord(base);
+  const ov = ensureOverride(name);
+  ov.ksa = rec.ksa === 'c' ? null : 'c';
+  scheduleSave();
+}
+
+function setNotes(name, text){
+  const ov = ensureOverride(name);
+  ov.notes = text.trim() === '' ? null : text.trim();
+  scheduleSave();
+}
+
+function clearBanner(name){
+  // convert a "COMPLETED" banner row into an editable per-subject row
+  const ov = ensureOverride(name);
+  ov.cleared = true;
+  scheduleSave();
+}
+
+function addCrew(name){
+  if(!overrides.__new__) overrides.__new__ = [];
+  if(!overrides.__new__.includes(name)) overrides.__new__.push(name);
+  scheduleSave();
+}
+
+function removeCrew(name, isNew){
+  if(isNew){
+    overrides.__new__ = (overrides.__new__||[]).filter(n => n !== name);
+  } else {
+    const ov = ensureOverride(name);
+    ov.removed = true;
+  }
+  scheduleSave();
+}
+
+async function resetAll(){
+  if(!confirm('Reset all edits back to the original imported data? This clears everything you\'ve changed in this tracker.')) return;
+  overrides = {};
+  try{ await window.storage.delete(STORAGE_KEY, false); }catch(e){}
+  render();
+}
+
+/* ---------------- rendering ---------------- */
+function buildHeader(){
+  const headRow = document.getElementById('headRow');
+  const frag = document.createDocumentFragment();
+  SUBJECTS.forEach(s=>{
+    const th = document.createElement('th');
+    th.textContent = s;
+    th.title = SUBJECT_FULL[s] || s;
+    frag.appendChild(th);
+  });
+  // insert subject columns after the first (name) th
+  const nameTh = headRow.querySelector('.th-name');
+  nameTh.after(frag);
+}
+
+function lightCell(name, subj, base, rec){
+  const td = document.createElement('td');
+  td.className = 'light-cell';
+  const div = document.createElement('div');
+  const info = rec.subjects[subj];
+  const isBlue = info && info.color === 'blue';
+  if(isBlue) td.classList.add('locked');
+  div.className = 'light' + (info && info.color ? (' ' + info.color) : '');
+  td.title = SUBJECT_FULL[subj]
+    + (info && info.color ? (' — ' + labelForColor(info.color)) : ' — not attempted')
+    + (isBlue ? '\nOfficially passed — click to change (confirmation required)' : '\nclick to change');
+  td.appendChild(div);
+  td.addEventListener('click', ()=>{
+    if(isBlue){
+      const ok = confirm(
+        name + ' — ' + (SUBJECT_FULL[subj] || subj) + '\n\n'
+        + 'This subject is marked as an OFFICIAL AUSTRO exam pass. This can\'t be undone accidentally — '
+        + 'are you sure you want to change it?'
+      );
+      if(!ok) return;
+    }
+    cycleSubject(name, subj, base);
+    renderRow(tr_for(name), base);
+    renderGauges();
+  });
+  return td;
+}
+
+function labelForColor(c){
+  return {green:'Passed exam', yellow:'Scheduled', blue:'Official exam passed', red:'Fail / not recommended'}[c] || '';
+}
+
+const rowRefs = {};
+function tr_for(name){ return rowRefs[name]; }
+
+// Special note keywords that drive background highlighting on the row.
+const NOTE_STYLES = {
+  'NOT RECOMMENDED': {cell:'rgba(255,90,90,.16)', cellBorder:'var(--red)', tag:null},
+  'APPLICATION RECEIVED': {cell:'rgba(63,206,116,.16)', cellBorder:'var(--green)', tag:'rgba(63,206,116,.16)'},
+  'APPLICATION SENT': {cell:'rgba(47,184,230,.16)', cellBorder:'var(--blue)', tag:'rgba(47,184,230,.16)'},
+};
+function noteStyleFor(text){
+  if(!text) return null;
+  const key = text.trim().toUpperCase();
+  return NOTE_STYLES[key] || null;
+}
+
+function buildRow(base){
+  const tr = document.createElement('tr');
+  tr.dataset.name = base.name;
+  rowRefs[base.name] = tr;
+  renderRow(tr, base);
+  return tr;
+}
+
+function renderRow(tr, base){
+  const rec = getRecord(base);
+  const status = rowStatus(rec);
+  tr.className = status === 'complete' ? 'row-complete' : '';
+  tr.innerHTML = '';
+  const noteStyle = noteStyleFor(rec.notes);
+
+  // name cell
+  const nameTd = document.createElement('td');
+  nameTd.className = 'name-cell';
+  if(noteStyle && noteStyle.tag){ nameTd.style.background = noteStyle.tag; }
+  nameTd.innerHTML = rec.name;
+  const delBtn = document.createElement('span');
+  delBtn.textContent = ' ✕';
+  delBtn.style.cssText = 'color:var(--text-faint);cursor:pointer;font-size:10px;margin-left:6px;';
+  delBtn.title = 'Remove crew member';
+  delBtn.onclick = (e)=>{
+    e.stopPropagation();
+    if(confirm('Remove ' + rec.name + ' from the tracker?')){
+      removeCrew(rec.name, !!(overrides.__new__ && overrides.__new__.includes(rec.name)));
+      render();
+    }
+  };
+  nameTd.appendChild(delBtn);
+  tr.appendChild(nameTd);
+
+  if(rec.status_text){
+    // banner cell spanning all subject columns
+    const td = document.createElement('td');
+    td.colSpan = SUBJECTS.length;
+    td.style.cssText = 'padding:8px !important;cursor:pointer;';
+    const pillColor = rec.status_color === 'red' ? 'red' : 'blue';
+    td.innerHTML = '<span class="status-pill ' + (pillColor==='red'?'flag':'complete') + '" style="letter-spacing:.08em;">'
+      + rec.status_text + '</span> <span style="color:var(--text-faint);font-size:10px;">— click to edit per subject</span>';
+    td.addEventListener('click', ()=>{
+      clearBanner(rec.name);
+      render();
+    });
+    tr.appendChild(td);
+  } else {
+    SUBJECTS.forEach(s=>{
+      tr.appendChild(lightCell(rec.name, s, base, rec));
+    });
+  }
+
+  // KSA
+  const ksaTd = document.createElement('td');
+  ksaTd.className = 'ksa-cell';
+  ksaTd.innerHTML = '<span class="ksa-check' + (rec.ksa === 'c' ? ' checked' : '') + '"></span>';
+  ksaTd.title = 'KSA status — click to toggle "completed"';
+  ksaTd.addEventListener('click', ()=>{
+    toggleKsa(rec.name, base);
+    renderRow(tr, base);
+    renderGauges();
+  });
+  tr.appendChild(ksaTd);
+
+  // total — number of green (passed) + yellow (scheduled) marks in the row
+  const totalTd = document.createElement('td');
+  totalTd.className = 'total-cell';
+  if(rec.status_text && rec.status_color === 'red'){
+    totalTd.innerHTML = '<span style="color:var(--red);">—</span>';
+  } else {
+    totalTd.textContent = greenYellowCount(rec);
+  }
+  tr.appendChild(totalTd);
+
+  // status
+  const statusTd = document.createElement('td');
+  statusTd.className = 'status-cell';
+  const map = {complete:['complete','Completed'], progress:['progress','In progress'], notstarted:['notstarted','Not started'], flag:['flag','Failing']};
+  const [cls,label] = map[status];
+  statusTd.innerHTML = '<span class="status-pill ' + cls + '">' + label + '</span>';
+  tr.appendChild(statusTd);
+
+  // notes
+  const notesTd = document.createElement('td');
+  notesTd.className = 'notes-cell' + (rec.notes ? '' : ' empty');
+  if(noteStyle){
+    notesTd.style.background = noteStyle.cell;
+    notesTd.style.borderLeft = '2px solid ' + noteStyle.cellBorder;
+  }
+
+  const notesText = document.createElement('span');
+  notesText.className = 'notes-text';
+  notesText.contentEditable = 'true';
+  notesText.spellcheck = false;
+  notesText.textContent = rec.notes || '';
+  notesText.addEventListener('focus', ()=>{ notesTd.classList.remove('empty'); });
+  notesText.addEventListener('blur', ()=>{
+    setNotes(rec.name, notesText.textContent);
+    if(!notesText.textContent.trim()) notesTd.classList.add('empty');
+    renderRow(tr, base);
+  });
+  notesText.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter'){ e.preventDefault(); notesText.blur(); }
+  });
+  notesTd.appendChild(notesText);
+
+  const notesPreset = document.createElement('select');
+  notesPreset.className = 'notes-preset';
+  notesPreset.title = 'Quick-select a status note';
+  notesPreset.innerHTML = '<option value="">▾</option>'
+    + Object.keys(NOTE_STYLES).map(k=>'<option value="' + k + '">' + k + '</option>').join('')
+    + '<option value="__clear__">Clear note</option>';
+  notesPreset.addEventListener('click', (e)=> e.stopPropagation());
+  notesPreset.addEventListener('change', ()=>{
+    const v = notesPreset.value;
+    if(v === '__clear__'){
+      setNotes(rec.name, '');
+    } else if(v){
+      setNotes(rec.name, v);
+    }
+    renderRow(tr, base);
+  });
+  notesTd.appendChild(notesPreset);
+
+  tr.appendChild(notesTd);
+}
+
+function passesFilter(rec){
+  if(searchTerm && !rec.name.toLowerCase().includes(searchTerm.toLowerCase())) return false;
+  if(filterMode === 'all') return true;
+  return rowStatus(rec) === filterMode;
+}
+
+function render(){
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+  const all = getAllRecords();
+  const visible = all.filter(passesFilter);
+
+  if(visible.length === 0){
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = SUBJECTS.length + 5;
+    td.className = 'empty-state';
+    td.textContent = 'No crew match this search / filter.';
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+  } else {
+    visible.forEach(rec=>{
+      const base = RAW_DATA.find(r=>r.name===rec.name) || {name:rec.name, status_text:null, status_color:null, subjects:{}, ksa:null, notes:null, applic:null};
+      tbody.appendChild(buildRow(base));
+    });
+  }
+  renderFooter(all);
+  renderGauges(all);
+  renderDrawer();
+  const fc = document.getElementById('footerCrewCount');
+  if(fc) fc.textContent = all.length + ' crew shown · 13 ATPL theory subjects · data editable in-browser, saved to your Claude account';
+}
+
+function renderFooter(all){
+  all = all || getAllRecords();
+  const foot = document.getElementById('footRow');
+  foot.innerHTML = '';
+  const nameTd = document.createElement('td');
+  nameTd.className = 'name-cell';
+  nameTd.textContent = all.length + ' crew';
+  foot.appendChild(nameTd);
+
+  SUBJECTS.forEach(s=>{
+    const td = document.createElement('td');
+    let passed = 0;
+    all.forEach(r=>{
+      if(r.status_text && r.status_color !== 'red') passed++;
+      else if(r.subjects[s] && (r.subjects[s].color === 'green' || r.subjects[s].color === 'blue')) passed++;
+    });
+    td.textContent = passed;
+    td.style.color = 'var(--text-faint)';
+    td.style.fontWeight = '400';
+    foot.appendChild(td);
+  });
+  const blank1 = document.createElement('td'); foot.appendChild(blank1);
+  const blank2 = document.createElement('td'); foot.appendChild(blank2);
+  const blank3 = document.createElement('td'); foot.appendChild(blank3);
+  const blank4 = document.createElement('td'); foot.appendChild(blank4);
+}
+
+function renderGauges(all){
+  all = all || getAllRecords();
+  const total = all.length;
+  const progress = all.filter(r=>rowStatus(r)==='progress').length;
+  const notstarted = all.filter(r=>rowStatus(r)==='notstarted').length;
+  const flagged = all.filter(r=>rowStatus(r)==='flag').length;
+
+  let greenCount=0, yellowCount=0, blueCount=0, redCount=0, ksaCount=0;
+  all.forEach(r=>{
+    if(r.ksa === 'c') ksaCount++;
+    if(r.status_text){
+      if(r.status_color === 'red') redCount++; else blueCount += SUBJECTS.length;
+      return;
+    }
+    SUBJECTS.forEach(s=>{
+      const info = r.subjects[s];
+      if(!info || !info.color) return;
+      if(info.color === 'green') greenCount++;
+      if(info.color === 'yellow') yellowCount++;
+      if(info.color === 'blue') blueCount++;
+      if(info.color === 'red') redCount++;
+    });
+  });
+
+  const gauges = [
+    {num: total, lbl:'Total crew', color:'var(--text)'},
+    {num: progress, lbl:'In progress', color:'var(--yellow)'},
+    {num: notstarted, lbl:'Not started', color:'var(--text-dim)'},
+    {num: flagged, lbl:'Failing', color:'var(--red)'},
+    {num: greenCount, lbl:'Exams passed', color:'var(--green)'},
+    {num: yellowCount, lbl:'Exams scheduled', color:'var(--yellow)'},
+    {num: greenCount + yellowCount, lbl:'Est. AUSTRO exams', color:'var(--amber)'},
+    {num: ksaCount, lbl:'KSA completed', color:'var(--green)'},
+  ];
+  const el = document.getElementById('gauges');
+  el.innerHTML = gauges.map(g=>(
+    '<div class="gauge" style="--g-color:' + g.color + '"><div class="num">' + g.num + '</div><div class="lbl">' + g.lbl + '</div></div>'
+  )).join('');
+}
+
+/* ---------------- CSV export ---------------- */
+function exportCSV(){
+  const all = getAllRecords();
+  const header = ['Crew', ...SUBJECTS, 'KSA', 'Total', 'Status', 'Notes'];
+  const lines = [header.join(',')];
+  all.forEach(r=>{
+    const row = [r.name];
+    SUBJECTS.forEach(s=>{
+      if(r.status_text){ row.push(r.status_color==='red' ? r.status_text : 'PASSED'); return; }
+      const info = r.subjects[s];
+      row.push(info && info.color ? info.color.toUpperCase() : '');
+    });
+    row.push(r.ksa === 'c' ? 'C' : '');
+    row.push(r.status_text && r.status_color === 'red' ? 0 : greenYellowCount(r));
+    row.push(rowStatus(r));
+    row.push('"' + (r.notes || '').replace(/"/g,'""') + '"');
+    lines.push(row.join(','));
+  });
+  const blob = new Blob([lines.join('\n')], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'austro_atpl_exams.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportJSON(){
+  const all = getAllRecords();
+  const payload = all.map(r => ({
+    name: r.name,
+    status_text: r.status_text || null,
+    status_color: r.status_color || null,
+    subjects: r.subjects,
+    ksa: r.ksa || null,
+    notes: r.notes || null,
+    total_exams: r.status_text && r.status_color === 'red' ? 0 : greenYellowCount(r),
+    status: rowStatus(r),
+  }));
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'austro_atpl_exams.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* ---------------- left drawer: KSA Schedule + Course Schedules ---------------- */
+let drawerTab = 'ksa';
+
+function jumpToRow(name){
+  document.getElementById('searchInput').value = name;
+  searchTerm = name;
+  render();
+  document.querySelector('.table-shell').scrollIntoView({behavior:'smooth', block:'start'});
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.getElementById('scheduleDrawer').classList.remove('open');
+}
+
+/* ---- KSA Practice SIMLAB grid (10 missions x crew) ---- */
+const KSA_STORAGE_KEY = 'austro-ksa-missions-overrides-v1';
+let ksaMissionOverrides = {};
+const KSA_STATE_CYCLE = [null, 'green', 'yellow', 'red'];
+const KSA_CODE = {green:'C', yellow:'S', red:'P'};
+
+async function loadKsaOverrides(){
+  try{
+    const res = await window.storage.get(KSA_STORAGE_KEY, false);
+    if(res && res.value) ksaMissionOverrides = JSON.parse(res.value);
+  }catch(e){ ksaMissionOverrides = {}; }
+}
+function scheduleSaveKsa(){
+  window.storage.set(KSA_STORAGE_KEY, JSON.stringify(ksaMissionOverrides), false).catch(()=>{});
+}
+function getKsaMissions(name){
+  const base = (KSA_MISSIONS_DATA.find(d=>d.name===name) || {missions:{}}).missions;
+  const ov = ksaMissionOverrides[name];
+  return ov ? Object.assign({}, base, ov) : base;
+}
+function cycleKsaMission(name, mission){
+  const missions = getKsaMissions(name);
+  const cur = missions[mission] ? missions[mission].color : null;
+  const idx = KSA_STATE_CYCLE.indexOf(cur);
+  const next = KSA_STATE_CYCLE[(idx + 1) % KSA_STATE_CYCLE.length];
+  if(!ksaMissionOverrides[name]) ksaMissionOverrides[name] = {};
+  ksaMissionOverrides[name][mission] = next ? {code: KSA_CODE[next], color: next} : null;
+  scheduleSaveKsa();
+}
+
+function renderKsaScheduleTab(){
+  document.getElementById('drawerHead').innerHTML =
+    '<h2>KSA Practice SIMLAB</h2><p>10 simulator missions per crew member. Click a cell to cycle: not attempted → completed → scheduled → pending.</p>';
+
+  const names = KSA_MISSIONS_DATA.map(d=>d.name);
+  let head = '<tr><th class="kt-name">Crew</th>' + Array.from({length:10},(_, i)=>'<th>M' + (i+1) + '</th>').join('') + '</tr>';
+  let rows = names.map(name=>{
+    const missions = getKsaMissions(name);
+    const cells = Array.from({length:10}, (_, i)=>{
+      const m = String(i+1);
+      const info = missions[m];
+      return '<td class="km-cell" data-ksa-mission-name="' + name + '" data-mission="' + m + '" title="' + name + ' — Mission ' + m + (info ? ' — ' + labelForColor(info.color) : ' — not attempted') + '">'
+        + '<div class="km-light' + (info ? ' ' + info.color : '') + '"></div></td>';
+    }).join('');
+    return '<tr><td class="kt-name">' + name + '</td>' + cells + '</tr>';
+  }).join('');
+
+  const body = document.getElementById('drawerBody');
+  body.innerHTML =
+    '<div class="cal-legend">'
+    + '<span class="item"><span class="sw" style="background:var(--green);"></span>Completed</span>'
+    + '<span class="item"><span class="sw" style="background:var(--yellow);"></span>Scheduled</span>'
+    + '<span class="item"><span class="sw" style="background:var(--red);"></span>Pending</span>'
+    + '</div>'
+    + '<div style="overflow-x:auto;"><table class="ksa-table"><thead>' + head + '</thead><tbody>' + rows + '</tbody></table></div>';
+
+  body.querySelectorAll('.km-cell').forEach(td=>{
+    td.addEventListener('click', ()=>{
+      cycleKsaMission(td.dataset.ksaMissionName, td.dataset.mission);
+      renderKsaScheduleTab();
+    });
+  });
+}
+
+/* ---- Course Schedules: 2026-2027 horizontal timeline with LPGC holidays + slots ---- */
+const SLOTS_STORAGE_KEY = 'austro-course-slots-v1';
+let courseSlots = [];
+let calYear = 2026, calMonth = 0; // Jan 2026
+let pendingSlot = null; // {date, promo}
+
+const SUBJECT_COLOR_PALETTE = {
+  AL:'#ff8a65', AGK:'#4fc3f7', INST:'#ba68c8', MB:'#81c784', PERF:'#ffd54f',
+  FPM:'#4db6ac', HPL:'#f06292', MET:'#7986cb', GNAV:'#a1887f', RNAV:'#90a4ae',
+  OPS:'#ffb74d', POF:'#64b5f6', COMS:'#aed581', 'TR WEEK':'#9e9e9e', EXAM:'#e57373'
+};
+
+async function loadCourseSlots(){
+  try{
+    const res = await window.storage.get(SLOTS_STORAGE_KEY, false);
+    if(res && res.value) courseSlots = JSON.parse(res.value);
+  }catch(e){ courseSlots = []; }
+}
+function saveCourseSlots(){
+  window.storage.set(SLOTS_STORAGE_KEY, JSON.stringify(courseSlots), false).catch(()=>{});
+}
+
+function pad2(n){ return n < 10 ? '0'+n : ''+n; }
+function ymd(y,m,d){ return y + '-' + pad2(m+1) + '-' + pad2(d); }
+function holidayFor(dateStr){ return LPGC_HOLIDAYS.find(h=>h.date === dateStr); }
+function slotFor(promo, dateStr){
+  return courseSlots.find(s => s.promo === promo && dateStr >= s.start && dateStr <= s.end);
+}
+function isoWeek(date){
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const dayNum = (d.getUTCDay() + 6) % 7;
+  d.setUTCDate(d.getUTCDate() - dayNum + 3);
+  const firstThursday = new Date(Date.UTC(d.getUTCFullYear(), 0, 4));
+  const weekNum = 1 + Math.round(((d - firstThursday) / 86400000 - 3 + ((firstThursday.getUTCDay() + 6) % 7)) / 7);
+  return weekNum;
+}
+
+function renderTimeline(){
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  const days = Array.from({length:daysInMonth}, (_,i)=>i+1);
+
+  // group days into ISO-week spans for the super-header
+  const weekSpans = [];
+  days.forEach(d=>{
+    const dt = new Date(calYear, calMonth, d);
+    const wk = isoWeek(dt);
+    const last = weekSpans[weekSpans.length-1];
+    if(last && last.wk === wk) last.span++;
+    else weekSpans.push({wk, span:1});
+  });
+
+  const weekHeaderCells = weekSpans.map(w=>'<th colspan="'+w.span+'">W'+w.wk+'</th>').join('');
+  const dayHeaderCells = days.map(d=>{
+    const dt = new Date(calYear, calMonth, d);
+    const dow = dt.getDay();
+    const isWeekend = dow === 0 || dow === 6;
+    const dateStr = ymd(calYear, calMonth, d);
+    const holiday = holidayFor(dateStr);
+    return '<th class="' + (isWeekend?'weekend':'') + (holiday?' holiday':'') + '" title="' + (holiday ? holiday.name : '') + '">' + pad2(d) + '</th>';
+  }).join('');
+
+  const bodyRows = PROM_GROUPS.map(promo=>{
+    const cells = days.map(d=>{
+      const dateStr = ymd(calYear, calMonth, d);
+      const dt = new Date(calYear, calMonth, d);
+      const dow = dt.getDay();
+      const isWeekend = dow === 0 || dow === 6;
+      const holiday = holidayFor(dateStr);
+      const slot = slotFor(promo, dateStr);
+      const isPending = pendingSlot && pendingSlot.promo === promo && pendingSlot.date === dateStr;
+      let cls = 'tl-cell' + (isWeekend?' weekend':'') + (holiday?' holiday':'') + (isPending?' pending':'');
+      let style = '';
+      let title = promo + ' — ' + dateStr + (holiday ? ' — ' + holiday.name : '');
+      if(slot){
+        style = 'background:' + (SUBJECT_COLOR_PALETTE[slot.subject] || 'var(--amber)') + ';';
+        title += ' — ' + slot.subject;
+        cls += ' slot';
+      }
+      return '<td class="' + cls + '" style="' + style + '" title="' + title + '" data-date="' + dateStr + '" data-promo="' + promo + '"' + (slot ? ' data-slot-id="' + slot.id + '"' : '') + '></td>';
+    }).join('');
+    return '<tr><th class="tl-row-label">' + promo + '</th>' + cells + '</tr>';
+  }).join('');
+
+  return '<div class="cal-toolbar">'
+    + '<div class="cal-nav"><button id="calPrev">‹</button><div class="cal-month-label">' + monthNames[calMonth] + ' ' + calYear + '</div><button id="calNext">›</button></div>'
+    + '<button class="btn primary" id="newSlotBtn">+ New slot</button>'
+    + '</div>'
+    + '<div class="cal-legend">'
+    + '<span class="item"><span class="sw" style="background:rgba(255,90,90,.35);border:1px solid var(--red);"></span>Público festivo (LPGC)</span>'
+    + '<span class="item"><span class="sw" style="background:#181c22;border:1px solid var(--line);"></span>Weekend</span>'
+    + '<span class="item" style="margin-left:auto;color:var(--text-faint);">click a cell to start a slot, click again on the same row to finish it</span>'
+    + '</div>'
+    + '<div class="tl-shell"><table class="tl-table">'
+    + '<thead><tr class="tl-week-row"><th class="tl-corner"></th>' + weekHeaderCells + '</tr>'
+    + '<tr class="tl-day-row"><th class="tl-corner">Promotion</th>' + dayHeaderCells + '</tr></thead>'
+    + '<tbody>' + bodyRows + '</tbody>'
+    + '</table></div>';
+}
+
+function renderSlotList(){
+  const sorted = courseSlots.slice().sort((a,b)=> a.start.localeCompare(b.start));
+  if(!sorted.length) return '<div class="dempty">No class slots created yet.</div>';
+  return sorted.map(s=>{
+    const col = SUBJECT_COLOR_PALETTE[s.subject] || 'var(--amber)';
+    return '<div class="drow" style="cursor:default;">'
+      + '<span class="sw" style="width:10px;height:10px;border-radius:2px;background:' + col + ';flex:none;"></span>'
+      + '<span><b>' + s.promo + '</b> — ' + s.subject + '</span>'
+      + '<span class="drow-note" style="max-width:none;">' + s.start + ' → ' + s.end + '</span>'
+      + '<span data-del-slot="' + s.id + '" style="color:var(--text-faint);cursor:pointer;margin-left:8px;" title="Delete slot">✕</span>'
+      + '</div>';
+  }).join('');
+}
+
+function renderCourseSchedulesTab(){
+  document.getElementById('drawerHead').innerHTML =
+    '<h2>Course Schedules</h2><p>Plan ATPL class blocks across 2026–2027 by promotion group, with Las Palmas de Gran Canaria public holidays marked. Click a cell to pick a start day, then another cell on the same row to finish the slot.</p>';
+
+  const body = document.getElementById('drawerBody');
+  body.innerHTML = renderTimeline()
+    + '<div class="dsec-title" style="margin-top:6px;"><span>Planned class slots</span><span class="count">' + courseSlots.length + '</span></div>'
+    + renderSlotList();
+
+  document.getElementById('calPrev').addEventListener('click', ()=>{
+    calMonth--; if(calMonth < 0){ calMonth = 11; calYear--; }
+    if(calYear < 2026){ calYear = 2026; calMonth = 0; }
+    pendingSlot = null;
+    renderCourseSchedulesTab();
+  });
+  document.getElementById('calNext').addEventListener('click', ()=>{
+    calMonth++; if(calMonth > 11){ calMonth = 0; calYear++; }
+    if(calYear > 2027){ calYear = 2027; calMonth = 11; }
+    pendingSlot = null;
+    renderCourseSchedulesTab();
+  });
+  document.getElementById('newSlotBtn').addEventListener('click', ()=> openSlotModal());
+
+  body.querySelectorAll('.tl-cell[data-date]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const date = el.dataset.date;
+      const promo = el.dataset.promo;
+      const slotId = el.dataset.slotId;
+      if(slotId){
+        // clicking an existing slot cell: offer to delete it
+        if(confirm('Delete this class slot?')){
+          courseSlots = courseSlots.filter(s=>s.id !== slotId);
+          saveCourseSlots();
+          renderCourseSchedulesTab();
+        }
+        return;
+      }
+      if(!pendingSlot){
+        pendingSlot = {date, promo};
+        renderCourseSchedulesTab();
+      } else if(pendingSlot.promo !== promo){
+        // switched rows — restart selection on the new row
+        pendingSlot = {date, promo};
+        renderCourseSchedulesTab();
+      } else {
+        const start = pendingSlot.date <= date ? pendingSlot.date : date;
+        const end = pendingSlot.date <= date ? date : pendingSlot.date;
+        pendingSlot = null;
+        openSlotModal(start, end, promo);
+      }
+    });
+  });
+  body.querySelectorAll('[data-del-slot]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const id = el.dataset.delSlot;
+      if(confirm('Delete this class slot?')){
+        courseSlots = courseSlots.filter(s=>s.id !== id);
+        saveCourseSlots();
+        renderCourseSchedulesTab();
+      }
+    });
+  });
+}
+
+function openSlotModal(start, end, promo){
+  const modal = document.getElementById('slotModal');
+  document.getElementById('slotStart').value = start || '';
+  document.getElementById('slotEnd').value = end || start || '';
+  const subjSel = document.getElementById('slotSubject');
+  subjSel.innerHTML = Object.keys(SUBJECT_COLOR_PALETTE).map(s=>'<option value="'+s+'">'+s+'</option>').join('');
+  const promoSel = document.getElementById('slotPromo');
+  promoSel.innerHTML = PROM_GROUPS.map(p=>'<option value="'+p+'">'+p+'</option>').join('') + '<option value="__other__">Other…</option>';
+  promoSel.value = promo && PROM_GROUPS.includes(promo) ? promo : PROM_GROUPS[0];
+  const otherInput = document.getElementById('slotPromoOther');
+  otherInput.style.display = 'none';
+  otherInput.value = '';
+  modal.classList.add('open');
+}
+
+function renderDrawer(){
+  if(drawerTab === 'ksa') renderKsaScheduleTab();
+  else renderCourseSchedulesTab();
+}
+
+function showImportResult(title, html){
+  document.getElementById('importModalTitle').textContent = title;
+  document.getElementById('importModalBody').innerHTML = html;
+  document.getElementById('importModal').classList.add('open');
+}
+
+function importJSON(file){
+  const reader = new FileReader();
+  reader.onload = (e)=>{
+    let parsed;
+    try{
+      parsed = JSON.parse(e.target.result);
+    }catch(err){
+      showImportResult('Import failed', 'That file isn\'t valid JSON. Make sure you\'re importing a file exported from this tracker (or matching the same structure).');
+      return;
+    }
+    if(!Array.isArray(parsed)){
+      showImportResult('Import failed', 'Expected a JSON array of crew records (the same shape "Export JSON" produces).');
+      return;
+    }
+
+    let updated = 0, added = 0, skipped = 0;
+    const existingNames = new Set(RAW_DATA.map(r=>r.name));
+
+    parsed.forEach(item=>{
+      if(!item || typeof item.name !== 'string' || !item.name.trim()){
+        skipped++;
+        return;
+      }
+      const name = item.name.trim().toUpperCase();
+
+      const cleanSubjects = {};
+      SUBJECTS.forEach(s=>{
+        const info = item.subjects && item.subjects[s];
+        if(info && info.color){
+          cleanSubjects[s] = {value: info.value != null ? info.value : 1, color: info.color};
+        } else {
+          cleanSubjects[s] = null;
+        }
+      });
+
+      const ov = ensureOverride(name);
+      ov.subjects = cleanSubjects;
+      ov.status_text = item.status_text || null;
+      ov.status_color = item.status_color || null;
+      ov.ksa = item.ksa === 'c' ? 'c' : null;
+      ov.notes = item.notes || null;
+      ov.removed = false;
+      delete ov.cleared;
+
+      if(!existingNames.has(name)){
+        if(!overrides.__new__) overrides.__new__ = [];
+        if(!overrides.__new__.includes(name)) overrides.__new__.push(name);
+        added++;
+      } else {
+        updated++;
+      }
+    });
+
+    scheduleSave();
+    render();
+    showImportResult(
+      'Import complete',
+      `<b style="color:var(--text);">${updated}</b> crew updated, <b style="color:var(--text);">${added}</b> added new`
+      + (skipped ? `, <b style="color:var(--red);">${skipped}</b> skipped (missing name)` : '')
+      + '.'
+    );
+  };
+  reader.onerror = ()=>{
+    showImportResult('Import failed', 'Could not read that file. Please try again.');
+  };
+  reader.readAsText(file);
+}
+
+/* ---------------- clock ---------------- */
+function tickClock(){
+  const now = new Date();
+  const el = document.getElementById('clockLine');
+  if(el) el.textContent = now.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'2-digit'}) + ' · ' + now.toLocaleTimeString();
+}
+
+/* ---------------- init ---------------- */
+async function init(){
+  buildHeader();
+  await Promise.all([loadOverrides(), loadKsaOverrides(), loadCourseSlots()]);
+  render();
+  tickClock();
+  setInterval(tickClock, 1000);
+
+  document.getElementById('searchInput').addEventListener('input', (e)=>{
+    searchTerm = e.target.value;
+    render();
+  });
+
+  document.getElementById('filterSeg').addEventListener('click', (e)=>{
+    const btn = e.target.closest('button[data-filter]');
+    if(!btn) return;
+    document.querySelectorAll('#filterSeg button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    filterMode = btn.dataset.filter;
+    render();
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', resetAll);
+  document.getElementById('exportBtn').addEventListener('click', exportCSV);
+  document.getElementById('exportJsonBtn').addEventListener('click', exportJSON);
+
+  const importInput = document.getElementById('importJsonInput');
+  document.getElementById('importJsonBtn').addEventListener('click', ()=>{
+    importInput.value = '';
+    importInput.click();
+  });
+  importInput.addEventListener('change', ()=>{
+    if(importInput.files && importInput.files[0]){
+      importJSON(importInput.files[0]);
+    }
+  });
+
+  const importModal = document.getElementById('importModal');
+  document.getElementById('importModalOk').addEventListener('click', ()=> importModal.classList.remove('open'));
+  importModal.addEventListener('click', (e)=>{ if(e.target === importModal) importModal.classList.remove('open'); });
+
+  const modal = document.getElementById('addModal');
+  document.getElementById('addCrewBtn').addEventListener('click', ()=>{
+    document.getElementById('newCrewName').value = '';
+    modal.classList.add('open');
+    document.getElementById('newCrewName').focus();
+  });
+  document.getElementById('cancelAdd').addEventListener('click', ()=> modal.classList.remove('open'));
+  modal.addEventListener('click', (e)=>{ if(e.target === modal) modal.classList.remove('open'); });
+  document.getElementById('confirmAdd').addEventListener('click', ()=>{
+    const name = document.getElementById('newCrewName').value.trim().toUpperCase();
+    if(!name) return;
+    addCrew(name);
+    modal.classList.remove('open');
+    render();
+  });
+  document.getElementById('newCrewName').addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter') document.getElementById('confirmAdd').click();
+  });
+
+  const lu = document.getElementById('lastUpdated');
+  if(lu) lu.textContent = 'imported from AUSTRO_EXPECTED_EXAMS_ACTUAL.xlsx';
+
+  const drawer = document.getElementById('scheduleDrawer');
+  const drawerOverlay = document.getElementById('drawerOverlay');
+  const openDrawer = ()=>{
+    drawer.classList.add('open');
+    drawerOverlay.classList.add('open');
+    renderDrawer();
+  };
+  const closeDrawer = ()=>{
+    drawer.classList.remove('open');
+    drawerOverlay.classList.remove('open');
+  };
+  document.getElementById('scheduleToggleBtn').addEventListener('click', openDrawer);
+  document.getElementById('drawerCloseBtn').addEventListener('click', closeDrawer);
+  drawerOverlay.addEventListener('click', closeDrawer);
+  document.querySelectorAll('.drawer-tab').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.drawer-tab').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      drawerTab = btn.dataset.dtab;
+      renderDrawer();
+    });
+  });
+
+  const slotModal = document.getElementById('slotModal');
+  document.getElementById('cancelSlot').addEventListener('click', ()=>{
+    pendingSlot = null;
+    slotModal.classList.remove('open');
+    renderCourseSchedulesTab();
+  });
+  slotModal.addEventListener('click', (e)=>{ if(e.target === slotModal){ slotModal.classList.remove('open'); } });
+  document.getElementById('slotPromo').addEventListener('change', (e)=>{
+    document.getElementById('slotPromoOther').style.display = e.target.value === '__other__' ? 'block' : 'none';
+  });
+  document.getElementById('confirmSlot').addEventListener('click', ()=>{
+    const start = document.getElementById('slotStart').value;
+    const end = document.getElementById('slotEnd').value;
+    const subject = document.getElementById('slotSubject').value;
+    const promoSelVal = document.getElementById('slotPromo').value;
+    const promo = promoSelVal === '__other__' ? document.getElementById('slotPromoOther').value.trim() : promoSelVal;
+    if(!start || !end || !promo){
+      alert('Please fill in start date, end date, and a promotion/group name.');
+      return;
+    }
+    if(end < start){
+      alert('End date must be on or after the start date.');
+      return;
+    }
+    courseSlots.push({
+      id: 'slot_' + Date.now() + '_' + Math.random().toString(36).slice(2,7),
+      start, end, subject, promo
+    });
+    saveCourseSlots();
+    slotModal.classList.remove('open');
+    renderCourseSchedulesTab();
+  });
+}
+
+init();
+
+</script>
+</body>
+</html>
